@@ -3,6 +3,7 @@ package com.example.Quanlysanpham.controller;
 import com.example.Quanlysanpham.dto.request.user.UserLoginRequestDTO;
 import com.example.Quanlysanpham.dto.request.user.UserRegisterRequestDTO;
 import com.example.Quanlysanpham.dto.response.ApiResponse;
+import com.example.Quanlysanpham.dto.response.user.UserLoginResponseDTO;
 import com.example.Quanlysanpham.dto.response.user.UserResponseDTO;
 import com.example.Quanlysanpham.service.AuthService;
 import jakarta.validation.Valid;
@@ -31,7 +32,12 @@ public class AuthController {
     }
 
     // Đăng nhập
-    public ResponseEntity<ApiResponse<UserResponseDTO>> login(@Valid @RequestBody UserLoginRequestDTO request) {
-
+    @PostMapping("/login")
+    public ResponseEntity<ApiResponse<UserLoginResponseDTO>> login(@Valid @RequestBody UserLoginRequestDTO request) {
+        return ResponseEntity.ok(new ApiResponse<>(
+                200,
+                "Đăng nhập thành công",
+                authService.login(request)
+        ));
     }
 }

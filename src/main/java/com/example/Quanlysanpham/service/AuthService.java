@@ -2,6 +2,7 @@ package com.example.Quanlysanpham.service;
 
 import com.example.Quanlysanpham.dto.request.user.UserLoginRequestDTO;
 import com.example.Quanlysanpham.dto.request.user.UserRegisterRequestDTO;
+import com.example.Quanlysanpham.dto.response.user.UserLoginResponseDTO;
 import com.example.Quanlysanpham.dto.response.user.UserResponseDTO;
 import com.example.Quanlysanpham.entity.User;
 import com.example.Quanlysanpham.mapper.UserResponseMapper;
@@ -44,7 +45,7 @@ public class AuthService {
     }
 
     // Đăng nhập
-    public UserResponseDTO login(UserLoginRequestDTO request) {
+    public UserLoginResponseDTO login(UserLoginRequestDTO request) {
         // kiểm tra username, password ~ tìm user, map mật khẩu
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
@@ -57,5 +58,10 @@ public class AuthService {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 
         // Sinh accessToken
+        String accessToken = jwtService.generateAccessToken(userDetails);
+
+        UserLoginResponseDTO response = new UserLoginResponseDTO();
+        response.setAccessToken(accessToken);
+        return response;
     }
 }
