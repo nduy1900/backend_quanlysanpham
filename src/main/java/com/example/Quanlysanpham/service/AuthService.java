@@ -70,6 +70,7 @@ public class AuthService {
 
         // Lấy thông tin người dùng đã xác thực
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        System.out.println("Authorities: " + userDetails.getAuthorities());
 
         // Sinh accessToken, refreshToken
         String accessToken = jwtService.generateAccessToken(userDetails);
