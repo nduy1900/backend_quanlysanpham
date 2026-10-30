@@ -1,5 +1,6 @@
 package com.example.Quanlysanpham.controller;
 
+import com.example.Quanlysanpham.dto.request.refresh.RefreshTokenRequestDTO;
 import com.example.Quanlysanpham.dto.request.user.UserLoginRequestDTO;
 import com.example.Quanlysanpham.dto.request.user.UserRegisterRequestDTO;
 import com.example.Quanlysanpham.dto.response.ApiResponse;
@@ -40,4 +41,16 @@ public class AuthController {
                 authService.login(request)
         ));
     }
+
+    // Tạo Refresh Token
+    @PostMapping("/refresh")
+    public ResponseEntity<ApiResponse<UserLoginResponseDTO>> refresh(@Valid @RequestBody RefreshTokenRequestDTO request) {
+        return ResponseEntity.status(201).body(new ApiResponse<>(
+                        201,
+                        "Tạo mới Access Token thành công",
+                        authService.refreshToken(request)
+                )
+        );
+    }
+
 }

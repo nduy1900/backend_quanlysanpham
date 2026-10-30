@@ -11,4 +11,5 @@ import lombok.Setter;
 @AllArgsConstructor
 public class UserLoginResponseDTO {
     private String accessToken;
+    private String refreshToken;
 }
