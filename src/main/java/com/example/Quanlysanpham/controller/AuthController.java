@@ -53,4 +53,14 @@ public class AuthController {
         );
     }
 
+    // Đăng xuất
+    @PostMapping("/logout")
+    public ResponseEntity<ApiResponse<Void>> logout(@Valid @RequestBody RefreshTokenRequestDTO request) {
+        authService.logout(request);
+        return ResponseEntity.ok(new ApiResponse<>(
+                200,
+                "Đăng xuất thành công",
+                null
+        ));
+    }
 }

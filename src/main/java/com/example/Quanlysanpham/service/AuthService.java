@@ -132,4 +132,19 @@ public class AuthService {
         response.setRefreshToken(newRefreshToken);
         return response;
     }
+
+    // Đăng xuất
+    public void logout(RefreshTokenRequestDTO request) {
+        // Lấy Refresh Token từ request
+        String token = request.getRefreshToken();
+
+        // Tìm Refresh Token trong DB
+        RefreshToken refreshTokenInDB = refreshTokenService.findByToken(token);
+
+        // Lấy family_id
+        String family_id = refreshTokenInDB.getFamilyId();
+
+        // Revoke toàn bộ family
+        refreshTokenService.revokeFamily(family_id);
+    }
 }
