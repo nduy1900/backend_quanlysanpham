@@ -6,7 +6,6 @@ import com.example.Quanlysanpham.entity.Role;
 import com.example.Quanlysanpham.entity.User;
 import com.example.Quanlysanpham.entity.UserRole;
 import com.example.Quanlysanpham.exception.ResourceNotFoundException;
-import com.example.Quanlysanpham.mapper.UserResponseMapper;
 import com.example.Quanlysanpham.repository.RoleRepository;
 import com.example.Quanlysanpham.repository.UserRepository;
 import com.example.Quanlysanpham.repository.UserRoleRepository;
@@ -22,7 +21,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
-    private final UserResponseMapper mapper;
     private final RoleRepository roleRepository;
     private final UserRoleRepository userRoleRepository;
 

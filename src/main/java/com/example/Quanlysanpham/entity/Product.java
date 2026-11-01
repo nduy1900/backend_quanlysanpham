@@ -48,10 +48,10 @@ public class Product {
     private LocalDateTime updatedAt;
 
     @Column(name = "created_by")
-    private int createdBy;
+    private Integer createdBy;
 
     @Column(name = "updated_by")
-    private int updatedBy;
+    private Integer updatedBy;
 
 
     @ManyToOne

@@ -32,7 +32,7 @@ public class StockMovement {
     private LocalDateTime createdAt;
 
     @Column(name = "created_by")
-    private int createdBy;
+    private Integer createdBy;
 
 
     @ManyToOne
