@@ -3,9 +3,11 @@ package com.example.Quanlysanpham.service;
 import com.example.Quanlysanpham.dto.request.category.CategoryRequestDTO;
 import com.example.Quanlysanpham.dto.response.category.CategoryResponseDTO;
 import com.example.Quanlysanpham.entity.Category;
+import com.example.Quanlysanpham.exception.DuplicateResourceException;
 import com.example.Quanlysanpham.exception.ResourceNotFoundException;
 import com.example.Quanlysanpham.mapper.CategoryMapper;
 import com.example.Quanlysanpham.repository.CategoryRepository;
+import com.example.Quanlysanpham.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +18,7 @@ import java.util.List;
 public class CategoryService {
     private final CategoryRepository categoryRepository;
     private final CategoryMapper categoryMapper;
+    private final ProductRepository productRepository;
 
     // Lấy danh sách
     public List<CategoryResponseDTO> getAll() {
@@ -61,6 +64,13 @@ public class CategoryService {
         Category deletedCategory = categoryRepository.findById(id).orElseThrow(
                 () -> new ResourceNotFoundException("Không tìm thấy danh mục có id = " + id)
         );
+
+        //  Kiểm tra Category có sản phẩm không
+        if (productRepository.existsByCategory_Id(id)) {
+            throw new DuplicateResourceException(
+                    "Không thể xóa danh mục đang có sản phẩm"
+            );
+        }
         categoryRepository.delete(deletedCategory);
     }
 }

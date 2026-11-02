@@ -26,7 +26,7 @@ public class AuthController {
     public ResponseEntity<ApiResponse<UserResponseDTO>> register(@Valid @RequestBody UserRegisterRequestDTO request) {
         return ResponseEntity.status(201).body(new ApiResponse<>(
                 201,
-                "Tạo tk thành công",
+                "Tạo tài khoản thành công",
                 authService.register(request)
 
         ));
