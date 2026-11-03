@@ -14,4 +14,5 @@ public class SupplierResponseDTO {
     private String name;
     private String phone;
     private String email;
+    private String address;
 }
