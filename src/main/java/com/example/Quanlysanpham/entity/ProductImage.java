@@ -23,7 +23,9 @@ public class ProductImage {
     @Column(name = "primary_image")
     private boolean primaryImage;
 
-
+    @Column(name = "public_id", nullable = false)
+    private String publicId;
+    
     @ManyToOne
     @JoinColumn(name = "product_id")
     private Product product;

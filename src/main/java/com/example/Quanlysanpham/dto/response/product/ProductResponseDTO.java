@@ -6,6 +6,7 @@ import com.example.Quanlysanpham.dto.response.product_detail.ProductDetailRespon
 import com.example.Quanlysanpham.dto.response.product_image.ProductImageResponseDTO;
 import com.example.Quanlysanpham.dto.response.product_supplier.ProductSupplierResponseDTO;
 import com.example.Quanlysanpham.dto.response.stock_movement.StockMovementResponseDTO;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,6 +15,7 @@ import lombok.Setter;
 import java.time.LocalDateTime;
 import java.util.List;
 
+@JsonInclude(JsonInclude.Include.NON_NULL) // Những dữ liệu nào NULL sẽ không hiển thị
 @Getter
 @Setter
 @NoArgsConstructor

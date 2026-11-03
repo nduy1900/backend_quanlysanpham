@@ -1,26 +1,29 @@
 package com.example.Quanlysanpham.service;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import com.example.Quanlysanpham.dto.request.product.ProductRequestDTO;
 import com.example.Quanlysanpham.dto.response.product.ProductResponseDTO;
-import com.example.Quanlysanpham.entity.Brand;
-import com.example.Quanlysanpham.entity.Category;
-import com.example.Quanlysanpham.entity.Product;
-import com.example.Quanlysanpham.entity.User;
+import com.example.Quanlysanpham.dto.response.product_image.ProductImageResponseDTO;
+import com.example.Quanlysanpham.entity.*;
 import com.example.Quanlysanpham.exception.DuplicateResourceException;
 import com.example.Quanlysanpham.exception.ResourceNotFoundException;
 import com.example.Quanlysanpham.mapper.ProductMapper;
-import com.example.Quanlysanpham.repository.BrandRepository;
-import com.example.Quanlysanpham.repository.CategoryRepository;
-import com.example.Quanlysanpham.repository.ProductRepository;
-import com.example.Quanlysanpham.repository.UserRepository;
+import com.example.Quanlysanpham.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.server.ResponseStatusException;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -30,6 +33,8 @@ public class ProductService {
     private final UserRepository userRepository;
     private final CategoryRepository categoryRepository;
     private final BrandRepository brandRepository;
+    private final ProductImageRepository productImageRepository;
+    private final Cloudinary cloudinary;
 
     // Phân trang danh sách sản phẩm
     public Page<ProductResponseDTO> getPage(int page, int size) {
@@ -151,5 +156,152 @@ public class ProductService {
                 .orElseThrow(() -> new ResourceNotFoundException("Không tìm thấy sản phẩm"));
 
         productRepository.delete(product);
+    }
+
+    // Upload ảnh sản phẩm
+    public ProductImageResponseDTO uploadImageProduct(int productId, MultipartFile file) throws IOException {
+        // Kiểm tra sản phẩm
+        Product product = productRepository.findById(productId).orElseThrow(
+                () -> new ResourceNotFoundException("Không tìm thấy sản phẩm")
+        );
+
+        // Kiểm tra sản phẩm có bị xoá chưa
+        if (product.isDeleted()) {
+            throw new ResourceNotFoundException("Không thể upload sản phẩm vì đã bị xoá");
+        }
+
+        // Kiểm tra file
+        if (file == null || file.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Vui lòng chọn ảnh cần upload");
+        }
+        if (file.getContentType() == null ||
+                !file.getContentType().startsWith("image/")) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "File tải lên phải là hình ảnh");
+        }
+
+        String publicId = null;
+
+        try {
+            // Upload ảnh lên Cloudinary
+            Map uploadResult = cloudinary.uploader().upload(
+                    file.getBytes(),
+                    ObjectUtils.asMap(
+                            "folder", "products/" + productId,
+                            "resource_type", "image"
+                    )
+            );
+
+            // Lấy thông tin từ Cloudinary
+            String url = uploadResult.get("secure_url").toString();
+            publicId = uploadResult.get("public_id").toString();
+
+            // Kiểm tra sản phẩm đã có ảnh chưa
+            List<ProductImage> images = productImageRepository.findByProductId(productId);
+
+            // Ảnh đầu tiên mặc định là ảnh đại diện
+            boolean primaryImage = images.isEmpty();
+
+            // Tạo ProductImage
+            ProductImage productImage = new ProductImage();
+
+            productImage.setUrl(url);
+            productImage.setPublicId(publicId);
+            productImage.setPrimaryImage(primaryImage);
+            productImage.setProduct(product);
+
+            // Lưu database
+            ProductImage savedImage = productImageRepository.save(productImage);
+
+            // Trả về DTO
+            return toResponseDTO(savedImage);
+
+        } catch (IOException e) {
+
+            // Upload thất bại do lỗi đọc file
+            throw new ResponseStatusException(
+                    HttpStatus.INTERNAL_SERVER_ERROR,
+                    "Không thể đọc file ảnh"
+            );
+
+        } catch (RuntimeException e) {
+
+            // Nếu Cloudinary đã upload thành công
+            // nhưng lưu MySQL thất bại thì xóa ảnh trên Cloudinary
+            if (publicId != null) {
+                try {
+                    cloudinary.uploader().destroy(
+                            publicId,
+                            ObjectUtils.emptyMap()
+                    );
+                } catch (IOException cleanupException) {
+                    e.addSuppressed(cleanupException);
+                }
+            }
+
+            throw e;
+        }
+    }
+
+    // Mapping DTO
+    private ProductImageResponseDTO toResponseDTO(ProductImage image) {
+
+        return new ProductImageResponseDTO(
+                image.getId(),
+                image.getUrl(),
+                image.isPrimaryImage()
+        );
+    }
+
+    // Xoá ảnh sản phẩm
+    public void deleteImage(int imageId) {
+
+        // 1. Tìm ảnh cần xóa
+        ProductImage image = productImageRepository.findById(imageId)
+                .orElseThrow(() -> new ResourceNotFoundException("Không tìm thấy ảnh sản phẩm"));
+
+        // 2. Lấy danh sách ảnh cùng sản phẩm
+        int productId = image.getProduct().getId();
+
+        List<ProductImage> images = productImageRepository.findByProductId(productId);
+
+        // 3. Xóa ảnh trên Cloudinary
+        try {
+            Map result = cloudinary.uploader().destroy(
+                    image.getPublicId(),
+                    ObjectUtils.emptyMap()
+            );
+
+            String status = result.get("result").toString();
+
+            if (!status.equals("ok") && !status.equals("not found")) {
+                throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
+                        "Không thể xóa ảnh trên Cloudinary"
+                );
+            }
+
+        } catch (IOException e) {
+            throw new ResponseStatusException(
+                    HttpStatus.INTERNAL_SERVER_ERROR,
+                    "Lỗi khi kết nối Cloudinary"
+            );
+        }
+
+        // 4. Kiểm tra ảnh có phải ảnh đại diện không
+        boolean isPrimary = image.isPrimaryImage();
+
+        // 5. Xóa bản ghi trong MySQL
+        productImageRepository.delete(image);
+
+        // 6. Nếu xóa ảnh đại diện thì chọn ảnh khác thay thế
+        if (isPrimary) {
+
+            images.stream()
+                    .filter(item -> item.getId() != imageId)
+                    .findFirst()
+                    .ifPresent(nextImage -> {
+                        nextImage.setPrimaryImage(true);
+                        productImageRepository.save(nextImage);
+                    });
+        }
     }
 }

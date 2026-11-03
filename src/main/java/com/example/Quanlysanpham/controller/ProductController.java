@@ -3,6 +3,7 @@ package com.example.Quanlysanpham.controller;
 import com.example.Quanlysanpham.dto.request.product.ProductRequestDTO;
 import com.example.Quanlysanpham.dto.response.ApiResponse;
 import com.example.Quanlysanpham.dto.response.product.ProductResponseDTO;
+import com.example.Quanlysanpham.dto.response.product_image.ProductImageResponseDTO;
 import com.example.Quanlysanpham.service.ProductService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +12,9 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @RestController
 @RequestMapping("/api/products")
@@ -19,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 public class ProductController {
     private final ProductService productService;
 
+    // LẤY DANH SÁCH SẢN PHẨM
     @GetMapping
     public ResponseEntity<ApiResponse<?>> getProductPage(
             @RequestParam(defaultValue = "0") int page,
@@ -30,6 +35,7 @@ public class ProductController {
         ));
     }
 
+    // LẤY SẢN PHẨM THEO ID
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponse<ProductResponseDTO>> getId(@PathVariable int id) {
         return ResponseEntity.ok(new ApiResponse<>(
@@ -39,6 +45,7 @@ public class ProductController {
         ));
     }
 
+    // TẠO MỚI SẢN PHẨM
     @PreAuthorize("hasAnyRole('ADMIN','MANAGER')")
     @PostMapping
     public ResponseEntity<ApiResponse<ProductResponseDTO>> postProduct(
@@ -51,6 +58,7 @@ public class ProductController {
         ));
     }
 
+    // CẬP NHẬT SẢN PHẨM
     @PreAuthorize("hasAnyRole('ADMIN','MANAGER')")
     @PutMapping("/{id}")
     public ResponseEntity<ApiResponse<ProductResponseDTO>> putProduct(
@@ -65,6 +73,7 @@ public class ProductController {
         ));
     }
 
+    // XOÁ SẢN PHẨM
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<ApiResponse<Void>> deleteProduct(@PathVariable int id) {
@@ -72,6 +81,31 @@ public class ProductController {
         return ResponseEntity.ok(new ApiResponse<>(
                 200,
                 "Xoá sản phẩm thành công",
+                null
+        ));
+    }
+
+    // UPLOAD ẢNH SẢN PHẨM
+    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
+    @PostMapping("/{id}/images")
+    public ResponseEntity<ApiResponse<ProductImageResponseDTO>> upload(
+            @PathVariable int id,
+            @RequestParam("image") MultipartFile multipartFile) throws IOException {
+        return ResponseEntity.status(201).body(new ApiResponse<>(
+                201,
+                "Upload ảnh sản phẩm thành công",
+                productService.uploadImageProduct(id, multipartFile)
+        ));
+    }
+
+    // XOÁ ẢNH SẢN PHẨM
+    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
+    @DeleteMapping("/images/{imageId}")
+    public ResponseEntity<ApiResponse<Void>> deleteImage(@PathVariable int imageId) {
+        productService.deleteImage(imageId);
+        return ResponseEntity.ok(new ApiResponse<>(
+                200,
+                "Xóa ảnh sản phẩm thành công",
                 null
         ));
     }
