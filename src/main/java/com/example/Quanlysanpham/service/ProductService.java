@@ -312,4 +312,12 @@ public class ProductService {
                 .stream()
                 .map(productMapper::toResponse).toList();
     }
+
+    // Tìm sản phẩm theo mã(SKU)
+    public List<ProductResponseDTO> getListProductBySku(String sku) {
+        List<Product> findListProductBySku = productRepository.findBySkuContainingIgnoreCase(sku);
+        return findListProductBySku
+                .stream()
+                .map(productMapper::toResponse).toList();
+    }
 }

@@ -120,4 +120,14 @@ public class ProductController {
                 productService.getLowStockProducts()
         ));
     }
+
+    // TÌM SẢN PHẨM THEO MÃ SẢN PHẨM
+    @GetMapping("/keyword")
+    public ResponseEntity<ApiResponse<List<ProductResponseDTO>>> findProductBySku(@RequestParam String sku) {
+        return ResponseEntity.ok(new ApiResponse(
+                200,
+                "Truy cập danh sách các sản phẩm theo mã " + sku,
+                productService.getListProductBySku(sku)
+        ));
+    }
 }

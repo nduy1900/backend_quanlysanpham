@@ -26,4 +26,7 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
                     ORDER BY p.quantity ASC
             """)
     List<Product> findLowStockProducts();
+
+    // Tìm các sản phẩm theo Sku
+    List<Product> findBySkuContainingIgnoreCase(String sku);
 }
