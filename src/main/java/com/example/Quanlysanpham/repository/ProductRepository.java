@@ -2,7 +2,10 @@ package com.example.Quanlysanpham.repository;
 
 import com.example.Quanlysanpham.entity.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Integer> {
@@ -15,4 +18,12 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
 
     // Kiểm tra Brand có sản phẩm hay không
     boolean existsByBrand_Id(int brandId);
+
+    // Kiểm tra sản phẩm còn hàng không
+    @Query("""
+                    SELECT p FROM Product p WHERE p.quantity <= p.minStock
+                    AND p.deleted = false
+                    ORDER BY p.quantity ASC
+            """)
+    List<Product> findLowStockProducts();
 }

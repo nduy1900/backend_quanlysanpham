@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/products")
@@ -107,6 +108,16 @@ public class ProductController {
                 200,
                 "Xóa ảnh sản phẩm thành công",
                 null
+        ));
+    }
+
+    // TÌM SẢN PHẨM SẮP HẾT HÀNG
+    @GetMapping("/low-stock")
+    public ResponseEntity<ApiResponse<List<ProductResponseDTO>>> findProductLowStock() {
+        return ResponseEntity.ok(new ApiResponse<>(
+                200,
+                "Truy cập danh sách sản phẩm sắp hết hàng",
+                productService.getLowStockProducts()
         ));
     }
 }

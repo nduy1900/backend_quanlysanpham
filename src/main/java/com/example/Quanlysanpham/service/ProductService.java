@@ -304,4 +304,12 @@ public class ProductService {
                     });
         }
     }
+
+    // KIỂM TRA SẢN PHẨM CÒN HÀNG KHÔNG
+    public List<ProductResponseDTO> getLowStockProducts() {
+        List<Product> productListLowStock = productRepository.findLowStockProducts();
+        return productListLowStock
+                .stream()
+                .map(productMapper::toResponse).toList();
+    }
 }
