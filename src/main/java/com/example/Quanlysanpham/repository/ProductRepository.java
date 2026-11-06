@@ -29,4 +29,16 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
 
     // Tìm các sản phẩm theo Sku
     List<Product> findBySkuContainingIgnoreCase(String sku);
+
+    // Tìm các sản phẩm theo danh mục
+    @Query("""
+                SELECT c.id, c.name, COUNT(p.id)
+                FROM Category c
+                LEFT JOIN Product p
+                    ON p.category.id = c.id
+                    AND p.deleted = false
+                GROUP BY c.id, c.name
+                ORDER BY c.id ASC
+            """)
+    List<Object[]> findProductByCategory();
 }
