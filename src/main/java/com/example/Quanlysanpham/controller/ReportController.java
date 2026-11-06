@@ -30,4 +30,15 @@ public class ReportController {
                 reportService.getProductByCategory()
         ));
     }
+
+    // TỔNG GIÁ TRỊ TỒN KHO
+    @PreAuthorize("hasAnyRole('ADMIN','MANAGER')")
+    @GetMapping("/inventory-value")
+    public ResponseEntity<ApiResponse<?>> getInventoryValue() {
+        return ResponseEntity.ok(new ApiResponse<>(
+                200,
+                "Thống kê tổng giá trị tồn kho thành công",
+                reportService.getInventoryValue()
+        ));
+    }
 }

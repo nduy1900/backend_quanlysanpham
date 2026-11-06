@@ -6,6 +6,7 @@ import com.example.Quanlysanpham.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,5 +30,10 @@ public class ReportService {
             dtoList.add(dto);
         }
         return dtoList;
+    }
+
+    // Tổng giá trị tồn kho
+    public BigDecimal getInventoryValue() {
+        return productRepository.getInventoryValue();
     }
 }

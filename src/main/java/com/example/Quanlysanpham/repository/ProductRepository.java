@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Repository
@@ -41,4 +42,12 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
                 ORDER BY c.id ASC
             """)
     List<Object[]> findProductByCategory();
+
+    // Tổng giá trị tồn kho
+    @Query("""
+                    SELECT SUM(p.quantity * p.price) FROM Product p
+                    WHERE p.deleted = false
+            
+            """)
+    BigDecimal getInventoryValue();
 }
