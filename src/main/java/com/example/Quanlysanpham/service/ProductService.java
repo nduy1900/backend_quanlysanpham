@@ -2,7 +2,8 @@ package com.example.Quanlysanpham.service;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
-import com.example.Quanlysanpham.dto.request.product.ProductRequestDTO;
+import com.example.Quanlysanpham.dto.request.product.CreateProductRequestDTO;
+import com.example.Quanlysanpham.dto.request.product_supplier.ProductSupplierRequestDTO;
 import com.example.Quanlysanpham.dto.response.product.ProductResponseDTO;
 import com.example.Quanlysanpham.dto.response.product_image.ProductImageResponseDTO;
 import com.example.Quanlysanpham.entity.*;
@@ -22,6 +23,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -35,6 +37,7 @@ public class ProductService {
     private final BrandRepository brandRepository;
     private final ProductImageRepository productImageRepository;
     private final Cloudinary cloudinary;
+    private final SupplierRepository supplierRepository;
 
     // Phân trang danh sách sản phẩm
     public Page<ProductResponseDTO> getPage(int page, int size) {
@@ -53,7 +56,7 @@ public class ProductService {
     }
 
     // Tạo sản phẩm
-    public ProductResponseDTO createProduct(ProductRequestDTO request, Authentication authentication) {
+    public ProductResponseDTO createProduct(CreateProductRequestDTO request, Authentication authentication) {
         // 1. Lấy User đang đăng nhập từ Access Token
         User user = userRepository.findByUsername(authentication.getName())
                 .orElseThrow(() ->
@@ -91,12 +94,47 @@ public class ProductService {
         // createdBy là id của user tạo sản phẩm
         newProduct.setCreatedBy(user.getId());
 
+        // 6. Tạo ProductDetail
+        ProductDetail productDetail = new ProductDetail();
+        productDetail.setDescription(request.getProductDetail().getDescription());
+        productDetail.setWeight(request.getProductDetail().getWeight());
+        productDetail.setDimensions(request.getProductDetail().getDimensions());
+        productDetail.setColor(request.getProductDetail().getColor());
+        productDetail.setWarrantyMonths(request.getProductDetail().getWarrantyMonths());
+        productDetail.setProduct(newProduct);
+        newProduct.setProductDetail(productDetail);
+
+
+        // 7. Tạo ProductSuppliers
+        List<ProductSupplier> productSuppliers = new ArrayList<>();
+        for (ProductSupplierRequestDTO supplierRequestDTO : request.getProductSuppliers()) {
+            // Tìm Supplier trong database
+            Supplier supplier = supplierRepository.findById(
+                    supplierRequestDTO.getSupplierId()).orElseThrow(() ->
+                    new ResourceNotFoundException("Không tìm thấy nhà cung cấp")
+            );
+            // Tạo ProductSupplier
+            ProductSupplier productSupplier = new ProductSupplier();
+
+            productSupplier.setSupplyPrice(supplierRequestDTO.getSupplyPrice());
+            productSupplier.setCreatedAt(LocalDateTime.now());
+
+            // Liên kết Product và Supplier
+            productSupplier.setProduct(newProduct);
+            productSupplier.setSupplier(supplier);
+
+            productSuppliers.add(productSupplier);
+        }
+
+        newProduct.setProductSuppliers(productSuppliers);
+
+        // 8.Lưu Product vào DB
         Product savedProduct = productRepository.save(newProduct);
         return productMapper.toResponse(savedProduct);
     }
 
     // Cập nhật sản phẩm
-    public ProductResponseDTO updateProduct(int id, ProductRequestDTO request, Authentication authentication) {
+    public ProductResponseDTO updateProduct(int id, CreateProductRequestDTO request, Authentication authentication) {
         // 1. Tìm sản phẩm cần cập nhật
         Product product = productRepository.findById(id)
                 .orElseThrow(() ->

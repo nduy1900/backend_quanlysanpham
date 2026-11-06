@@ -21,7 +21,7 @@ public class ProductDetail {
     private String description;
 
     @Column(name = "weight")
-    private String weight;
+    private double weight;
 
     @Column(name = "dimensions", length = 100)
     private String dimensions;
@@ -32,7 +32,7 @@ public class ProductDetail {
     @Column(name = "warranty_months")
     private int warrantyMonths;
 
-   
+
     @OneToOne
     @JoinColumn(name = "product_id", nullable = false, unique = true)
     private Product product;

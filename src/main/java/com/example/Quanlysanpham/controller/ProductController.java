@@ -1,6 +1,6 @@
 package com.example.Quanlysanpham.controller;
 
-import com.example.Quanlysanpham.dto.request.product.ProductRequestDTO;
+import com.example.Quanlysanpham.dto.request.product.CreateProductRequestDTO;
 import com.example.Quanlysanpham.dto.response.ApiResponse;
 import com.example.Quanlysanpham.dto.response.product.ProductResponseDTO;
 import com.example.Quanlysanpham.dto.response.product_image.ProductImageResponseDTO;
@@ -50,7 +50,7 @@ public class ProductController {
     @PreAuthorize("hasAnyRole('ADMIN','MANAGER')")
     @PostMapping
     public ResponseEntity<ApiResponse<ProductResponseDTO>> postProduct(
-            @Valid @RequestBody ProductRequestDTO request
+            @Valid @RequestBody CreateProductRequestDTO request
             , Authentication authentication) {
         return ResponseEntity.status(201).body(new ApiResponse<>(
                 201,
@@ -64,7 +64,7 @@ public class ProductController {
     @PutMapping("/{id}")
     public ResponseEntity<ApiResponse<ProductResponseDTO>> putProduct(
             @PathVariable int id,
-            @Valid @RequestBody ProductRequestDTO request,
+            @Valid @RequestBody CreateProductRequestDTO request,
             Authentication authentication
     ) {
         return ResponseEntity.ok(new ApiResponse<>(

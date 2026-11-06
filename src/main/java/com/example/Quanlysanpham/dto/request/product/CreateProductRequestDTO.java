@@ -1,5 +1,8 @@
 package com.example.Quanlysanpham.dto.request.product;
 
+import com.example.Quanlysanpham.dto.request.product_detail.ProductDetailRequestDTO;
+import com.example.Quanlysanpham.dto.request.product_supplier.ProductSupplierRequestDTO;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
@@ -8,11 +11,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProductRequestDTO {
+public class CreateProductRequestDTO {
     @NotBlank(message = "SKU không được bỏ trống")
     private String sku;
 
@@ -32,7 +37,18 @@ public class ProductRequestDTO {
     private int minStock;
 
     private String status;
-    
+
+
+    // ProductDetail
+    @NotNull(message = "Thông tin chi tiết sản phẩm không được để trống")
+    @Valid
+    ProductDetailRequestDTO productDetail;
+
+    // ProductSuppliers
+    @Valid
+    List<ProductSupplierRequestDTO> productSuppliers;
+
+
     @NotNull(message = "Category ID không được để trống")
     private int categoryId;
 
