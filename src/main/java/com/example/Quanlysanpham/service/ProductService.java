@@ -235,10 +235,13 @@ public class ProductService {
     }
 
     // Xoá sản phẩm
-    public void deleteProduct(int id) {
+    public void deleteProduct(int id, Authentication authentication) {
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Không tìm thấy sản phẩm"));
         productRepository.delete(product);
+
+        // Ghi lịch sử xoá sản phẩm
+        auditLogService.saveLog(authentication.getName(), "DELETE", "Product", product.getId());
     }
 
     // Upload ảnh sản phẩm

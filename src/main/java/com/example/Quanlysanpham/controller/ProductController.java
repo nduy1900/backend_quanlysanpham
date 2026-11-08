@@ -77,8 +77,8 @@ public class ProductController {
     // XOÁ SẢN PHẨM
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
-    public ResponseEntity<ApiResponse<Void>> deleteProduct(@PathVariable int id) {
-        productService.deleteProduct(id);
+    public ResponseEntity<ApiResponse<Void>> deleteProduct(@PathVariable int id, Authentication authentication) {
+        productService.deleteProduct(id, authentication);
         return ResponseEntity.ok(new ApiResponse<>(
                 200,
                 "Xoá sản phẩm thành công",
