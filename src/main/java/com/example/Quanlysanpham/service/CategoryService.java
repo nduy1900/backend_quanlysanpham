@@ -9,6 +9,7 @@ import com.example.Quanlysanpham.mapper.CategoryMapper;
 import com.example.Quanlysanpham.repository.CategoryRepository;
 import com.example.Quanlysanpham.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,6 +20,7 @@ public class CategoryService {
     private final CategoryRepository categoryRepository;
     private final CategoryMapper categoryMapper;
     private final ProductRepository productRepository;
+    private final AuditLogService auditLogService;
 
     // Lấy danh sách
     public List<CategoryResponseDTO> getAll() {
@@ -37,17 +39,20 @@ public class CategoryService {
     }
 
     // Tạo danh mục
-    public CategoryResponseDTO createCategory(CategoryRequestDTO request) {
+    public CategoryResponseDTO createCategory(CategoryRequestDTO request, Authentication authentication) {
         Category newCategory = new Category();
         newCategory.setName(request.getName());
         newCategory.setDescription(request.getDescription());
 
         Category savedCategory = categoryRepository.save(newCategory);
+
+        // Ghi lịch sử tạo danh mục
+        auditLogService.saveLog(authentication.getName(), "CREATE", "Category", savedCategory.getId());
         return categoryMapper.toResponse(savedCategory);
     }
 
     // Cập nhật danh mục
-    public CategoryResponseDTO updateCategory(int id, CategoryRequestDTO request) {
+    public CategoryResponseDTO updateCategory(int id, CategoryRequestDTO request, Authentication authentication) {
         Category updatedCategory = categoryRepository.findById(id).orElseThrow(
                 () -> new ResourceNotFoundException("Không tìm thấy danh mục có id = " + id)
         );
@@ -56,11 +61,13 @@ public class CategoryService {
         updatedCategory.setDescription(request.getDescription());
 
         Category savedCategory = categoryRepository.save(updatedCategory);
+        // Ghi lịch sử cập nhật danh mục
+        auditLogService.saveLog(authentication.getName(), "UPDATE", "Category", savedCategory.getId());
         return categoryMapper.toResponse(savedCategory);
     }
 
     // Xoá danh mục
-    public void deleteCategory(int id) {
+    public void deleteCategory(int id, Authentication authentication) {
         Category deletedCategory = categoryRepository.findById(id).orElseThrow(
                 () -> new ResourceNotFoundException("Không tìm thấy danh mục có id = " + id)
         );
@@ -72,5 +79,8 @@ public class CategoryService {
             );
         }
         categoryRepository.delete(deletedCategory);
+
+        // Ghi lịch sử xoá danh mục
+        auditLogService.saveLog(authentication.getName(), "DELETE", "Category", deletedCategory.getId());
     }
 }

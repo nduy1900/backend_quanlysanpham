@@ -9,6 +9,7 @@ import com.example.Quanlysanpham.mapper.BrandMapper;
 import com.example.Quanlysanpham.repository.BrandRepository;
 import com.example.Quanlysanpham.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,6 +20,7 @@ public class BrandService {
     private final BrandRepository brandRepository;
     private final BrandMapper brandMapper;
     private final ProductRepository productRepository;
+    private final AuditLogService auditLogService;
 
     // Lấy danh sách
     public List<BrandResponseDTO> getAll() {
@@ -37,17 +39,20 @@ public class BrandService {
     }
 
     // Tạo thương hiệu
-    public BrandResponseDTO createBrand(BrandRequestDTO request) {
+    public BrandResponseDTO createBrand(BrandRequestDTO request, Authentication authentication) {
         Brand newBrand = new Brand();
         newBrand.setName(request.getName());
         newBrand.setCountry(request.getCountry());
 
         Brand savedBrand = brandRepository.save(newBrand);
+
+        // Ghi nhận lịch sử tạo
+        auditLogService.saveLog(authentication.getName(), "CREATE", "Brand", savedBrand.getId());
         return brandMapper.toResponse(savedBrand);
     }
 
     // Cập nhật thương hiệu
-    public BrandResponseDTO updateBrand(int id, BrandRequestDTO request) {
+    public BrandResponseDTO updateBrand(int id, BrandRequestDTO request, Authentication authentication) {
         Brand updatedBrand = brandRepository.findById(id).orElseThrow(
                 () -> new ResourceNotFoundException("Thương hiệu không tồn tại")
         );
@@ -56,11 +61,14 @@ public class BrandService {
         updatedBrand.setCountry(request.getCountry());
 
         Brand savedBrand = brandRepository.save(updatedBrand);
+
+        // Ghi nhận lịch sử cập nhật
+        auditLogService.saveLog(authentication.getName(), "UPDATE", "Brand", savedBrand.getId());
         return brandMapper.toResponse(savedBrand);
     }
 
     // Xoá thương hiệu
-    public void deleteBrand(int id) {
+    public void deleteBrand(int id, Authentication authentication) {
         Brand deletedBrand = brandRepository.findById(id).orElseThrow(
                 () -> new ResourceNotFoundException("Thương hiệu không tồn tại")
         );
@@ -72,5 +80,8 @@ public class BrandService {
             );
         }
         brandRepository.delete(deletedBrand);
+
+        // Ghi nhận lịch sử xoá
+        auditLogService.saveLog(authentication.getName(), "DELETE", "Brand", deletedBrand.getId());
     }
 }

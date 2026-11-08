@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -40,28 +41,28 @@ public class BrandController {
 
     @PreAuthorize("hasAnyRole('ADMIN','MANAGER')")
     @PostMapping
-    public ResponseEntity<ApiResponse<BrandResponseDTO>> postBrand(@Valid @RequestBody BrandRequestDTO request) {
+    public ResponseEntity<ApiResponse<BrandResponseDTO>> postBrand(@Valid @RequestBody BrandRequestDTO request, Authentication authentication) {
         return ResponseEntity.status(201).body(new ApiResponse<>(
                 201,
                 "Tạo thương hiệu sản phẩm thành công",
-                brandService.createBrand(request)
+                brandService.createBrand(request, authentication)
         ));
     }
 
     @PreAuthorize("hasAnyRole('ADMIN','MANAGER')")
     @PutMapping("/{id}")
-    public ResponseEntity<ApiResponse<BrandResponseDTO>> putBrand(@PathVariable int id, @Valid @RequestBody BrandRequestDTO request) {
+    public ResponseEntity<ApiResponse<BrandResponseDTO>> putBrand(@PathVariable int id, @Valid @RequestBody BrandRequestDTO request, Authentication authentication) {
         return ResponseEntity.ok(new ApiResponse<>(
                 200,
                 "Cập nhật thương hiệu sản phẩm thành công",
-                brandService.updateBrand(id, request)
+                brandService.updateBrand(id, request, authentication)
         ));
     }
 
     @PreAuthorize("hasAnyRole('ADMIN','MANAGER')")
     @DeleteMapping("/{id}")
-    public ResponseEntity<ApiResponse<Void>> deleteBrand(@PathVariable int id) {
-        brandService.deleteBrand(id);
+    public ResponseEntity<ApiResponse<Void>> deleteBrand(@PathVariable int id, Authentication authentication) {
+        brandService.deleteBrand(id, authentication);
         return ResponseEntity.ok(new ApiResponse<>(
                 200,
                 "Xoá thương hiệu sản phẩm thành công",
