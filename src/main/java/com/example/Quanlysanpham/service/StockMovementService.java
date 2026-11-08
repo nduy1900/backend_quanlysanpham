@@ -28,6 +28,7 @@ public class StockMovementService {
     private final UserRepository userRepository;
     private final StockMovementMapper stockMovementMapper;
     private final StockMovementHistoryMapper stockMovementHistoryMapper;
+    private final AuditLogService auditLogService;
 
     // Nhập sản phẩm
     @Transactional
@@ -71,6 +72,8 @@ public class StockMovementService {
         stockMovement.setCreatedBy(user.getId());
 
         StockMovement savedStock = stockRepository.save(stockMovement);
+        // Ghi lịch sử nhập kho
+        auditLogService.saveLog(authentication.getName(), "IMPORT", "Product", product.getId());
         return stockMovementMapper.toResponse(savedStock);
     }
 
@@ -118,6 +121,8 @@ public class StockMovementService {
         stockMovement.setProduct(product);
 
         StockMovement savedStock = stockRepository.save(stockMovement);
+        // Ghi lịch sử xuất kho
+        auditLogService.saveLog(authentication.getName(), "EXPORT", "Product", product.getId());
         return stockMovementMapper.toResponse(savedStock);
     }
 
@@ -132,7 +137,7 @@ public class StockMovementService {
         } else {
             type = null;
         }
-        
+
         List<StockMovement> stockMovements = stockRepository.findByType(type);
         return stockMovements
                 .stream()

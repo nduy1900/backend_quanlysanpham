@@ -38,6 +38,7 @@ public class ProductService {
     private final ProductImageRepository productImageRepository;
     private final Cloudinary cloudinary;
     private final SupplierRepository supplierRepository;
+    private final AuditLogService auditLogService;
 
     // Phân trang danh sách sản phẩm
     public Page<ProductResponseDTO> getPage(int page, int size) {
@@ -130,7 +131,12 @@ public class ProductService {
 
         // 8.Lưu Product vào DB
         Product savedProduct = productRepository.save(newProduct);
+
+        // Ghi lịch sử hoạt động
+        auditLogService.saveLog(authentication.getName(), "CREATE", "Product", savedProduct.getId());
         return productMapper.toResponse(savedProduct);
+
+
     }
 
     // Cập nhật sản phẩm
@@ -220,6 +226,9 @@ public class ProductService {
         // 11. Lưu database
         Product updatedProduct = productRepository.save(product);
 
+        // Ghi lịch sử hoạt động
+        auditLogService.saveLog(authentication.getName(), "UPDATE", "Product", updatedProduct.getId());
+
         // 12. Mapping sang DTO
         return productMapper.toResponse(updatedProduct);
 
@@ -229,7 +238,6 @@ public class ProductService {
     public void deleteProduct(int id) {
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Không tìm thấy sản phẩm"));
-
         productRepository.delete(product);
     }
 
