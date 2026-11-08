@@ -17,7 +17,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreateProductRequestDTO {
+public class ProductRequestDTO {
     @NotBlank(message = "SKU không được bỏ trống")
     private String sku;
 
