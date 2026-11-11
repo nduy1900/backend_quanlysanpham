@@ -4,6 +4,7 @@ import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import com.example.Quanlysanpham.dto.request.product.ProductRequestDTO;
 import com.example.Quanlysanpham.dto.request.product_supplier.ProductSupplierRequestDTO;
+import com.example.Quanlysanpham.dto.response.product.ProductExcelResponseDTO;
 import com.example.Quanlysanpham.dto.response.product.ProductResponseDTO;
 import com.example.Quanlysanpham.dto.response.product_image.ProductImageResponseDTO;
 import com.example.Quanlysanpham.entity.*;
@@ -12,6 +13,8 @@ import com.example.Quanlysanpham.exception.ResourceNotFoundException;
 import com.example.Quanlysanpham.mapper.ProductMapper;
 import com.example.Quanlysanpham.repository.*;
 import lombok.RequiredArgsConstructor;
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -21,6 +24,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -46,6 +50,11 @@ public class ProductService {
         Pageable pageable = PageRequest.of(page, size);
         Page<Product> products = productRepository.findAll(pageable);
         return products.map(productMapper::toResponse);
+    }
+
+    public List<ProductResponseDTO> getAllProducts() {
+        List<Product> products = productRepository.findAll();
+        return products.stream().map(productMapper::toResponse).toList();
     }
 
     // Lấy sản phẩm theo ID
@@ -406,4 +415,181 @@ public class ProductService {
                 .stream()
                 .map(productMapper::toResponse).toList();
     }
+
+    // Xem file excel
+    public List<ProductExcelResponseDTO> readExcel(MultipartFile file) throws IOException {
+        List<ProductExcelResponseDTO> excelResponseDTOList = new ArrayList<>();
+        // Tạo Workbook
+        Workbook workbook = WorkbookFactory.create(file.getInputStream());
+
+        // Chọn trang sheet
+        Sheet sheet = workbook.getSheetAt(0);
+
+        // Lặp vòng lặp từng hàng
+        for (int i = 1; i <= sheet.getLastRowNum(); i++) {
+
+            Row row = sheet.getRow(i);
+            // Kiểm tra row có null hay không
+            if (row == null) {
+                continue;
+            }
+            // Lấy value của từng ô trong hàng
+            String idValue = getCellValue(row.getCell(0));
+            String sku = getCellValue(row.getCell(1));
+            String name = getCellValue(row.getCell(2));
+            String priceValue = getCellValue(row.getCell(3));
+            String quantityValue = getCellValue(row.getCell(4));
+            String minStockValue = getCellValue(row.getCell(5));
+            String status = getCellValue(row.getCell(6));
+            String deletedValue = getCellValue(row.getCell(7));
+
+
+            // Chuyển đổi kiểu dữ liệu
+            int id = Integer.parseInt(idValue);
+            double price = Double.parseDouble(priceValue);
+            int quantity = Integer.parseInt(quantityValue);
+            int minStock = Integer.parseInt(minStockValue);
+            boolean deleted = Boolean.parseBoolean(deletedValue);
+
+
+            // Tạo đối tượng
+            ProductExcelResponseDTO dto = new ProductExcelResponseDTO(
+                    id, sku, name, price, quantity, minStock, status, deleted
+            );
+            // Thêm vào danh sách
+            excelResponseDTOList.add(dto);
+        }
+        // Đóng Workbook
+        workbook.close();
+
+        return excelResponseDTOList;
+    }
+
+    // Do không biết kiểu dữ liệu là gì, có thể là chuỗi,
+    // có thể là số,… phải có phương thức đọc dữ liệu
+    private String getCellValue(Cell cell) {
+
+        if (cell == null) {
+            return "";
+        }
+
+        return new DataFormatter()
+                .formatCellValue(cell);
+    }
+
+    public byte[] exportExcel(List<ProductResponseDTO> products) throws IOException {
+
+        try (Workbook workbook = new XSSFWorkbook();
+             ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
+
+            Sheet sheet = workbook.createSheet("Products");
+
+            // 1. Tạo tiêu đề
+            String[] headers = {
+                    "ID",
+                    "SKU",
+                    "Name",
+                    "Price",
+                    "Quantity",
+                    "MinStock",
+                    "Status",
+                    "Deleted",
+                    "CreatedAt",
+                    "UpdatedAt",
+                    "CreatedBy",
+                    "UpdatedBy",
+                    "Category",
+                    "Brand",
+                    "Description",
+                    "Weight",
+                    "Dimensions",
+                    "Color",
+                    "WarrantyMonths"
+            };
+
+            Row headerRow = sheet.createRow(0);
+
+            for (int i = 0; i < headers.length; i++) {
+                headerRow.createCell(i).setCellValue(headers[i]);
+            }
+
+            // 2. Ghi dữ liệu
+            int rowIndex = 1;
+
+            for (ProductResponseDTO product : products) {
+
+                Row row = sheet.createRow(rowIndex++);
+
+                row.createCell(0).setCellValue(product.getId());
+                row.createCell(1).setCellValue(product.getSku());
+                row.createCell(2).setCellValue(product.getName());
+                row.createCell(3).setCellValue(product.getPrice());
+                row.createCell(4).setCellValue(product.getQuantity());
+                row.createCell(5).setCellValue(product.getMinStock());
+                row.createCell(6).setCellValue(product.getStatus());
+                row.createCell(7).setCellValue(product.isDeleted());
+
+                // Thời gian
+                row.createCell(8).setCellValue(
+                        product.getCreatedAt() != null ? product.getCreatedAt().toString() : "");
+
+                row.createCell(9).setCellValue(product.getUpdatedAt() != null ? product.getUpdatedAt().toString() : "");
+
+                row.createCell(10).setCellValue(product.getCreatedBy());
+
+                row.createCell(11).setCellValue(product.getUpdatedBy());
+
+                // Category
+                row.createCell(12).setCellValue(product.getCategory() != null
+                        ? product.getCategory().getName() : ""
+                );
+
+                // Brand
+                row.createCell(13).setCellValue(product.getBrand() != null
+                        ? product.getBrand().getName() : ""
+                );
+
+                // ProductDetail
+                if (product.getProductDetail() != null) {
+
+                    row.createCell(14).setCellValue(
+                            product.getProductDetail().getDescription() != null
+                                    ? product.getProductDetail().getDescription() : ""
+                    );
+
+                    row.createCell(15).setCellValue(
+                            product.getProductDetail().getWeight()
+                    );
+
+                    row.createCell(16).setCellValue(
+                            product.getProductDetail().getDimensions() != null
+                                    ? product.getProductDetail().getDimensions() : ""
+                    );
+
+                    row.createCell(17).setCellValue(
+                            product.getProductDetail().getColor() != null
+                                    ? product.getProductDetail().getColor() : ""
+                    );
+
+                    row.createCell(18).setCellValue(
+                            product.getProductDetail().getWarrantyMonths()
+                    );
+                }
+            }
+
+            // 3. Tự động điều chỉnh độ rộng cột
+            for (int i = 0; i < headers.length; i++) {
+                sheet.autoSizeColumn(i);
+            }
+
+            // 4. Ghi Workbook vào OutputStream
+            workbook.write(outputStream);
+
+            return outputStream.toByteArray();
+        }
+    }
+
 }
+
+
+

@@ -2,11 +2,14 @@ package com.example.Quanlysanpham.controller;
 
 import com.example.Quanlysanpham.dto.request.product.ProductRequestDTO;
 import com.example.Quanlysanpham.dto.response.ApiResponse;
+import com.example.Quanlysanpham.dto.response.product.ProductExcelResponseDTO;
 import com.example.Quanlysanpham.dto.response.product.ProductResponseDTO;
 import com.example.Quanlysanpham.dto.response.product_image.ProductImageResponseDTO;
 import com.example.Quanlysanpham.service.ProductService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -130,4 +133,37 @@ public class ProductController {
                 productService.getListProductBySku(sku)
         ));
     }
+
+    // ĐỌC FILE EXCEL
+    @PreAuthorize("hasAnyRole('ADMIN','MANAGER')")
+    @PostMapping("/import")
+    public ResponseEntity<ApiResponse<List<ProductExcelResponseDTO>>> importExcel(
+            @RequestParam("file") MultipartFile file) throws IOException {
+        return ResponseEntity.status(201).body(new ApiResponse<>(
+                201,
+                "Xem file excel thành công",
+                productService.readExcel(file)
+
+        ));
+    }
+
+    // XUẤT FILE EXCEL
+    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
+    @GetMapping("/export")
+    public ResponseEntity<byte[]> exportExcel() throws IOException {
+
+        List<ProductResponseDTO> products = productService.getAllProducts();
+
+        byte[] data = productService.exportExcel(products);
+
+        return ResponseEntity.ok()
+                .header(
+                        HttpHeaders.CONTENT_DISPOSITION,
+                        "attachment; filename=products.xlsx"
+                )
+                .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                .body(data);
+    }
 }
+
+
