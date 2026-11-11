@@ -15,6 +15,8 @@ import com.example.Quanlysanpham.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -43,11 +45,13 @@ public class ProductService {
     private final Cloudinary cloudinary;
     private final SupplierRepository supplierRepository;
     private final AuditLogService auditLogService;
+    private static final Logger logger = LoggerFactory.getLogger(ProductService.class);
 
     // Phân trang danh sách sản phẩm
     public Page<ProductResponseDTO> getPage(int page, int size) {
 //        Pageable pageable = Pageable.ofSize(size).withPage(page);
         Pageable pageable = PageRequest.of(page, size);
+        logger.info("Bắt đầu lấy danh sách sản phẩm");
         Page<Product> products = productRepository.findAll(pageable);
         return products.map(productMapper::toResponse);
     }
@@ -59,9 +63,14 @@ public class ProductService {
 
     // Lấy sản phẩm theo ID
     public ProductResponseDTO getProductById(int id) {
+        logger.info("Bắt đầu tìm sản phẩm với ID: {}", id);
         Product findProductInDB = productRepository.findById(id).orElseThrow(
-                () -> new ResourceNotFoundException("Không tìm thấy sản phẩm có id = " + id)
+                () -> {
+                    logger.error("Không tìm thấy sản phẩm, ID: " + id);
+                    return new ResourceNotFoundException("Không tìm thấy sản phẩm có id = " + id);
+                }
         );
+        logger.info("Tìm thấy sản phẩm: " + findProductInDB.getName());
         return productMapper.toResponse(findProductInDB);
     }
 
@@ -88,6 +97,7 @@ public class ProductService {
                         new ResourceNotFoundException("Không tìm thấy thương hiệu"));
 
         // 5. Tạo Product
+        logger.info("Bắt đầu thêm sản phẩm: " + request.getName());
         Product newProduct = new Product();
 
         newProduct.setSku(request.getSku());
@@ -140,7 +150,7 @@ public class ProductService {
 
         // 8.Lưu Product vào DB
         Product savedProduct = productRepository.save(newProduct);
-
+        logger.info("Thêm sản phẩm thành công, ID: " + savedProduct.getId());
         // Ghi lịch sử hoạt động
         auditLogService.saveLog(authentication.getName(), "CREATE", "Product", savedProduct.getId());
         return productMapper.toResponse(savedProduct);
@@ -152,8 +162,10 @@ public class ProductService {
     public ProductResponseDTO updateProduct(int id, ProductRequestDTO request, Authentication authentication) {
         // 1. Tìm sản phẩm cần cập nhật
         Product product = productRepository.findById(id)
-                .orElseThrow(() ->
-                        new ResourceNotFoundException("Không tìm thấy sản phẩm"));
+                .orElseThrow(() -> {
+                    logger.error("Không tìm thấy sản phẩm, ID: " + id);
+                    return new ResourceNotFoundException("Không tìm thấy sản phẩm");
+                });
 
         // 2. Kiểm tra sản phẩm đã bị xóa chưa
         if (product.isDeleted()) {
@@ -234,7 +246,7 @@ public class ProductService {
 
         // 11. Lưu database
         Product updatedProduct = productRepository.save(product);
-
+        logger.info("Cập nhật sản phẩm thành công, ID: " + updatedProduct.getId());
         // Ghi lịch sử hoạt động
         auditLogService.saveLog(authentication.getName(), "UPDATE", "Product", updatedProduct.getId());
 
@@ -246,15 +258,19 @@ public class ProductService {
     // Xoá sản phẩm
     public void deleteProduct(int id, Authentication authentication) {
         Product product = productRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Không tìm thấy sản phẩm"));
+                .orElseThrow(() -> {
+                    logger.error("Không tìm thấy sản phẩm với ID: " + id);
+                    return new ResourceNotFoundException("Không tìm thấy sản phẩm");
+                });
         productRepository.delete(product);
-
+        logger.info("Xoá sản phẩm thành công, ID: " + id);
         // Ghi lịch sử xoá sản phẩm
         auditLogService.saveLog(authentication.getName(), "DELETE", "Product", product.getId());
     }
 
     // Upload ảnh sản phẩm
     public ProductImageResponseDTO uploadImageProduct(int productId, MultipartFile file) throws IOException {
+        logger.info("Bắt đầu upload ảnh của sản phẩm có ID = " + productId);
         // Kiểm tra sản phẩm
         Product product = productRepository.findById(productId).orElseThrow(
                 () -> new ResourceNotFoundException("Không tìm thấy sản phẩm")
@@ -306,7 +322,7 @@ public class ProductService {
 
             // Lưu database
             ProductImage savedImage = productImageRepository.save(productImage);
-
+            logger.info("Upload ảnh thành công");
             // Trả về DTO
             return toResponseDTO(savedImage);
 
@@ -352,7 +368,10 @@ public class ProductService {
 
         // 1. Tìm ảnh cần xóa
         ProductImage image = productImageRepository.findById(imageId)
-                .orElseThrow(() -> new ResourceNotFoundException("Không tìm thấy ảnh sản phẩm"));
+                .orElseThrow(() -> {
+                    logger.error("Không tìm thấy ảnh sản phẩm, ID: " + imageId);
+                    return new ResourceNotFoundException("Không tìm thấy ảnh sản phẩm");
+                });
 
         // 2. Lấy danh sách ảnh cùng sản phẩm
         int productId = image.getProduct().getId();
@@ -386,6 +405,7 @@ public class ProductService {
 
         // 5. Xóa bản ghi trong MySQL
         productImageRepository.delete(image);
+        logger.info("Xoá ảnh thành công");
 
         // 6. Nếu xóa ảnh đại diện thì chọn ảnh khác thay thế
         if (isPrimary) {
@@ -402,6 +422,7 @@ public class ProductService {
 
     // KIỂM TRA SẢN PHẨM CÒN HÀNG KHÔNG
     public List<ProductResponseDTO> getLowStockProducts() {
+        logger.info("API được gọi: ProductController.findProductLowStock()");
         List<Product> productListLowStock = productRepository.findLowStockProducts();
         return productListLowStock
                 .stream()
@@ -410,6 +431,7 @@ public class ProductService {
 
     // Tìm sản phẩm theo mã(SKU)
     public List<ProductResponseDTO> getListProductBySku(String sku) {
+        logger.info("API được gọi: ProductController.findProductBySku()");
         List<Product> findListProductBySku = productRepository.findBySkuContainingIgnoreCase(sku);
         return findListProductBySku
                 .stream()
@@ -418,6 +440,7 @@ public class ProductService {
 
     // Xem file excel
     public List<ProductExcelResponseDTO> readExcel(MultipartFile file) throws IOException {
+        logger.info("API được gọi: ProductController.importExcel()");
         List<ProductExcelResponseDTO> excelResponseDTOList = new ArrayList<>();
         // Tạo Workbook
         Workbook workbook = WorkbookFactory.create(file.getInputStream());
@@ -477,8 +500,9 @@ public class ProductService {
                 .formatCellValue(cell);
     }
 
+    // Xuất file Excel
     public byte[] exportExcel(List<ProductResponseDTO> products) throws IOException {
-
+        logger.info("API được gọi: ProductController.exportExcel()");
         try (Workbook workbook = new XSSFWorkbook();
              ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
 
