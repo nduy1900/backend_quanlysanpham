@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -40,28 +41,33 @@ public class SupplierController {
 
     @PreAuthorize("hasAnyRole('ADMIN','MANAGER')")
     @PostMapping
-    public ResponseEntity<ApiResponse<SupplierResponseDTO>> postSupplier(@Valid @RequestBody SupplierRequestDTO request) {
+    public ResponseEntity<ApiResponse<SupplierResponseDTO>> postSupplier(
+            @Valid @RequestBody SupplierRequestDTO request,
+            Authentication authentication) {
         return ResponseEntity.status(201).body(new ApiResponse<>(
                 201,
                 "Tạo nhà cung cấp thành công",
-                supplierService.createSupplier(request)
+                supplierService.createSupplier(request, authentication)
         ));
     }
 
     @PreAuthorize("hasAnyRole('ADMIN','MANAGER')")
     @PutMapping("/{id}")
-    public ResponseEntity<ApiResponse<SupplierResponseDTO>> putSupplier(@PathVariable int id, @Valid @RequestBody SupplierRequestDTO request) {
+    public ResponseEntity<ApiResponse<SupplierResponseDTO>> putSupplier(
+            @PathVariable int id,
+            @Valid @RequestBody SupplierRequestDTO request,
+            Authentication authentication) {
         return ResponseEntity.ok(new ApiResponse<>(
                 200,
                 "Cập nhật nhà cung cấp thành công",
-                supplierService.updateSupplier(id, request)
+                supplierService.updateSupplier(id, request, authentication)
         ));
     }
 
     @PreAuthorize("hasAnyRole('ADMIN','MANAGER')")
     @DeleteMapping("/{id}")
-    public ResponseEntity<ApiResponse<Void>> deleteSupplier(@PathVariable int id) {
-        supplierService.deleteSupplier(id);
+    public ResponseEntity<ApiResponse<Void>> deleteSupplier(@PathVariable int id, Authentication authentication) {
+        supplierService.deleteSupplier(id, authentication);
         return ResponseEntity.ok(new ApiResponse<>(
                 200,
                 "Xoá nhà cung cấp thành công",

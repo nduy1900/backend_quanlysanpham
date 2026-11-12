@@ -9,6 +9,8 @@ import com.example.Quanlysanpham.mapper.BrandMapper;
 import com.example.Quanlysanpham.repository.BrandRepository;
 import com.example.Quanlysanpham.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
@@ -21,10 +23,13 @@ public class BrandService {
     private final BrandMapper brandMapper;
     private final ProductRepository productRepository;
     private final AuditLogService auditLogService;
+    private static final Logger logger = LoggerFactory.getLogger(BrandService.class);
 
     // Lấy danh sách
     public List<BrandResponseDTO> getAll() {
+        logger.info("API được gọi: BrandController.getBrandList()");
         List<Brand> brands = brandRepository.findAll();
+        logger.info("Số lượng thương hiệu trong danh sách là: " + brands.size());
         return brands
                 .stream()
                 .map(brandMapper::toResponse).toList();
@@ -32,20 +37,28 @@ public class BrandService {
 
     // Lấy theo id
     public BrandResponseDTO getBrandById(int id) {
+        logger.info("API được gọi: BrandController.getBrandById()");
+        logger.info("Lấy thương hiệu, ID: " + id);
         Brand findBrandInDB = brandRepository.findById(id).orElseThrow(
-                () -> new ResourceNotFoundException("Thương hiệu không tồn tại")
+                () -> {
+                    logger.error("Không tìm thấy thương hiệu, ID: " + id);
+                    return new ResourceNotFoundException("Thương hiệu không tồn tại");
+                }
         );
+        logger.info("Tìm thấy thương hiệu, ID: " + id);
         return brandMapper.toResponse(findBrandInDB);
     }
 
     // Tạo thương hiệu
     public BrandResponseDTO createBrand(BrandRequestDTO request, Authentication authentication) {
+        logger.info("API được gọi: BrandController.postBrand()");
+        logger.info("Bắt đầu tạo thương hiệu " + request.getName());
         Brand newBrand = new Brand();
         newBrand.setName(request.getName());
         newBrand.setCountry(request.getCountry());
 
         Brand savedBrand = brandRepository.save(newBrand);
-
+        logger.info("Tạo thương hiệu " + request.getName() + " thành công");
         // Ghi nhận lịch sử tạo
         auditLogService.saveLog(authentication.getName(), "CREATE", "Brand", savedBrand.getId());
         return brandMapper.toResponse(savedBrand);
@@ -53,14 +66,20 @@ public class BrandService {
 
     // Cập nhật thương hiệu
     public BrandResponseDTO updateBrand(int id, BrandRequestDTO request, Authentication authentication) {
+        logger.info("API được gọi: BrandController.putBrand()");
+        logger.info("Cập nhật thương hiệu, ID: " + id);
         Brand updatedBrand = brandRepository.findById(id).orElseThrow(
-                () -> new ResourceNotFoundException("Thương hiệu không tồn tại")
+                () -> {
+                    logger.error("Không tìm thấy thương hiệu, ID: " + id);
+                    return new ResourceNotFoundException("Thương hiệu không tồn tại");
+                }
         );
 
         updatedBrand.setName(request.getName());
         updatedBrand.setCountry(request.getCountry());
 
         Brand savedBrand = brandRepository.save(updatedBrand);
+        logger.info("Cập nhật thương hiệu, ID: " + id);
 
         // Ghi nhận lịch sử cập nhật
         auditLogService.saveLog(authentication.getName(), "UPDATE", "Brand", savedBrand.getId());
@@ -69,8 +88,13 @@ public class BrandService {
 
     // Xoá thương hiệu
     public void deleteBrand(int id, Authentication authentication) {
+        logger.info("API được gọi: BrandController.deleteBrand()");
+        logger.info("Xoá thương hiệu, ID: " + id);
         Brand deletedBrand = brandRepository.findById(id).orElseThrow(
-                () -> new ResourceNotFoundException("Thương hiệu không tồn tại")
+                () -> {
+                    logger.error("Không tồn tại thương hiệu, ID: " + id);
+                    return new ResourceNotFoundException("Thương hiệu không tồn tại");
+                }
         );
 
         // Kiểm tra Brand có sản phẩm không
@@ -80,7 +104,7 @@ public class BrandService {
             );
         }
         brandRepository.delete(deletedBrand);
-
+        logger.info("Xoá thương hiệu, ID: " + id);
         // Ghi nhận lịch sử xoá
         auditLogService.saveLog(authentication.getName(), "DELETE", "Brand", deletedBrand.getId());
     }
