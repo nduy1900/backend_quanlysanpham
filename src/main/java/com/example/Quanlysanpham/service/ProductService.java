@@ -17,6 +17,10 @@ import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -48,6 +52,10 @@ public class ProductService {
     private static final Logger logger = LoggerFactory.getLogger(ProductService.class);
 
     // Phân trang danh sách sản phẩm
+    @Cacheable(
+            value = "productPages",
+            key = "#page + '-' + #size"
+    )
     public Page<ProductResponseDTO> getPage(int page, int size) {
 //        Pageable pageable = Pageable.ofSize(size).withPage(page);
         Pageable pageable = PageRequest.of(page, size);
@@ -56,12 +64,17 @@ public class ProductService {
         return products.map(productMapper::toResponse);
     }
 
+    @Cacheable(value = "productList")
     public List<ProductResponseDTO> getAllProducts() {
         List<Product> products = productRepository.findAll();
         return products.stream().map(productMapper::toResponse).toList();
     }
 
     // Lấy sản phẩm theo ID
+    @Cacheable(
+            value = "productDetail",
+            key = "#id"
+    )
     public ProductResponseDTO getProductById(int id) {
         logger.info("Bắt đầu tìm sản phẩm với ID: {}", id);
         Product findProductInDB = productRepository.findById(id).orElseThrow(
@@ -75,6 +88,14 @@ public class ProductService {
     }
 
     // Tạo sản phẩm
+    @CacheEvict(
+            cacheNames = {
+                    "productPages",
+                    "productDetail",
+                    "productList"
+            },
+            allEntries = true
+    )
     public ProductResponseDTO createProduct(ProductRequestDTO request, Authentication authentication) {
         // 1. Lấy User đang đăng nhập từ Access Token
         User user = userRepository.findByUsername(authentication.getName())
@@ -159,6 +180,24 @@ public class ProductService {
     }
 
     // Cập nhật sản phẩm
+    @Caching(
+            put = {
+                    @CachePut(
+                            value = "productDetail",
+                            key = "#id"
+                    )
+            },
+            evict = {
+                    @CacheEvict(
+                            value = "productList",
+                            allEntries = true
+                    ),
+                    @CacheEvict(
+                            value = "productPages",
+                            allEntries = true
+                    )
+            }
+    )
     public ProductResponseDTO updateProduct(int id, ProductRequestDTO request, Authentication authentication) {
         // 1. Tìm sản phẩm cần cập nhật
         Product product = productRepository.findById(id)
@@ -256,6 +295,14 @@ public class ProductService {
     }
 
     // Xoá sản phẩm
+    @CacheEvict(
+            cacheNames = {
+                    "productList",
+                    "productDetail",
+                    "productPages"
+            },
+            allEntries = true
+    )
     public void deleteProduct(int id, Authentication authentication) {
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> {

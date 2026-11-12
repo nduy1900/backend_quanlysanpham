@@ -30,8 +30,8 @@ public class ProductController {
     // LẤY DANH SÁCH SẢN PHẨM
     @GetMapping
     public ResponseEntity<ApiResponse<?>> getProductPage(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "5") int size) {
+            @RequestParam(defaultValue = "0", required = false) int page,
+            @RequestParam(defaultValue = "5", required = false) int size) {
         return ResponseEntity.ok(new ApiResponse<>(
                 200,
                 "Truy cập danh sách sản phẩm thành công",
