@@ -44,14 +44,24 @@ public class CacheConfig {
                         RedisSerializationContext.SerializationPair
                                 .fromSerializer(jsonSerializer));
 
+        // Cấu hình riêng cho Product
         RedisCacheConfiguration productListConfig = defaultConfig.entryTtl(Duration.ofMinutes(5));
         RedisCacheConfiguration productDetailConfig = defaultConfig.entryTtl(Duration.ofMinutes(10));
 
+
+        // Cấu hình riêng cho Supplier
+        RedisCacheConfiguration suppliersConfig = defaultConfig.entryTtl(Duration.ofMinutes(5));
+        RedisCacheConfiguration supplierDetailConfig = defaultConfig.entryTtl(Duration.ofMinutes(10));
         Map<String, RedisCacheConfiguration> configurations = new HashMap<>();
 
+        // Đưa các cache của Product vào
         configurations.put("productPages", defaultConfig);
         configurations.put("productList", productListConfig);
         configurations.put("productDetail", productDetailConfig);
+
+        // Đưa các cache của Supplier vào
+        configurations.put("suppliers", suppliersConfig);
+        configurations.put("supplierDetail", supplierDetailConfig);
 
         return RedisCacheManager.builder(connectionFactory)
                 .cacheDefaults(defaultConfig)

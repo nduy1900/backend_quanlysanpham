@@ -9,6 +9,10 @@ import com.example.Quanlysanpham.repository.SupplierRepository;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +27,7 @@ public class SupplierService {
     private static final Logger logger = LoggerFactory.getLogger(SupplierService.class);
 
     // Lấy danh sách
+    @Cacheable("suppliers")
     public List<SupplierResponseDTO> getAll() {
         logger.info("API được gọi: SupplierController.getList()");
         List<Supplier> suppliers = supplierRepository.findAll();
@@ -33,6 +38,10 @@ public class SupplierService {
     }
 
     // Lấy theo id
+    @Cacheable(
+            value = "supplierDetail",
+            key = "#id"
+    )
     public SupplierResponseDTO getById(int id) {
         logger.info("API được gọi: SupplierController.getSupplierById()");
         logger.info("Tìm nhà cung cấp, ID: " + id);
@@ -47,6 +56,13 @@ public class SupplierService {
     }
 
     // Tạo mới nhà cung cấp
+    @CacheEvict(
+            cacheNames = {
+                    "suppliers",
+                    "supplierDetail"
+            },
+            allEntries = true
+    )
     public SupplierResponseDTO createSupplier(SupplierRequestDTO request, Authentication authentication) {
         logger.info("API được gọi: SupplierController.postSupplier()");
         logger.info("Tạo mới nhà cung cấp " + request.getName());
@@ -63,6 +79,20 @@ public class SupplierService {
     }
 
     // Cập nhật nhà cung cấp
+    @Caching(
+            put = {
+                    @CachePut(
+                            value = "supplierDetail",
+                            key = "#id"
+                    )
+            },
+            evict = {
+                    @CacheEvict(
+                            value = "suppliers",
+                            allEntries = true
+                    )
+            }
+    )
     public SupplierResponseDTO updateSupplier(int id, SupplierRequestDTO request, Authentication authentication) {
         logger.info("API được gọi: SupplierController.putSupplier()");
         logger.info("Cập nhật nhà cung cấp, ID: " + id);
@@ -84,6 +114,12 @@ public class SupplierService {
     }
 
     // Xoá nhà cung cấp
+    @Caching(
+            evict = {
+                    @CacheEvict(value = "suppliers", allEntries = true),
+                    @CacheEvict(value = "supplierDetail", key = "#id")
+            }
+    )
     public void deleteSupplier(int id, Authentication authentication) {
         logger.info("API được gọi: SupplierController.deleteSupplier()");
         Supplier deletedSupplier = supplierRepository.findById(id).orElseThrow(
