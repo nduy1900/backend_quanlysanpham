@@ -11,6 +11,10 @@ import com.example.Quanlysanpham.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +30,7 @@ public class BrandService {
     private static final Logger logger = LoggerFactory.getLogger(BrandService.class);
 
     // Lấy danh sách
+    @Cacheable("brands")
     public List<BrandResponseDTO> getAll() {
         logger.info("API được gọi: BrandController.getBrandList()");
         List<Brand> brands = brandRepository.findAll();
@@ -36,6 +41,10 @@ public class BrandService {
     }
 
     // Lấy theo id
+    @Cacheable(
+            value = "brandDetail",
+            key = "#id"
+    )
     public BrandResponseDTO getBrandById(int id) {
         logger.info("API được gọi: BrandController.getBrandById()");
         logger.info("Lấy thương hiệu, ID: " + id);
@@ -50,6 +59,13 @@ public class BrandService {
     }
 
     // Tạo thương hiệu
+    @CacheEvict(
+            cacheNames = {
+                    "brands",
+                    "brandDetail"
+            },
+            allEntries = true
+    )
     public BrandResponseDTO createBrand(BrandRequestDTO request, Authentication authentication) {
         logger.info("API được gọi: BrandController.postBrand()");
         logger.info("Bắt đầu tạo thương hiệu " + request.getName());
@@ -65,6 +81,19 @@ public class BrandService {
     }
 
     // Cập nhật thương hiệu
+    @Caching(
+            put = {
+                    @CachePut(
+                            value = "brandDetail",
+                            key = "#id"
+                    )
+            },
+            evict = {
+                    @CacheEvict(
+                            value = "brands", allEntries = true
+                    )
+            }
+    )
     public BrandResponseDTO updateBrand(int id, BrandRequestDTO request, Authentication authentication) {
         logger.info("API được gọi: BrandController.putBrand()");
         logger.info("Cập nhật thương hiệu, ID: " + id);
@@ -87,6 +116,12 @@ public class BrandService {
     }
 
     // Xoá thương hiệu
+    @Caching(
+            evict = {
+                    @CacheEvict(value = "brands", allEntries = true),
+                    @CacheEvict(value = "brandDetail", key = "#id")
+            }
+    )
     public void deleteBrand(int id, Authentication authentication) {
         logger.info("API được gọi: BrandController.deleteBrand()");
         logger.info("Xoá thương hiệu, ID: " + id);

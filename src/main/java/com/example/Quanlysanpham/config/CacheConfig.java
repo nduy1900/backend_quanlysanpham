@@ -54,6 +54,10 @@ public class CacheConfig {
         RedisCacheConfiguration supplierDetailConfig = defaultConfig.entryTtl(Duration.ofMinutes(10));
         Map<String, RedisCacheConfiguration> configurations = new HashMap<>();
 
+        // Cấu hình riêng cho Brand
+        RedisCacheConfiguration brandsConfig = defaultConfig.entryTtl(Duration.ofMinutes(5));
+        RedisCacheConfiguration brandDetailConfig = defaultConfig.entryTtl(Duration.ofMinutes(10));
+
         // Đưa các cache của Product vào
         configurations.put("productPages", defaultConfig);
         configurations.put("productList", productListConfig);
@@ -62,6 +66,10 @@ public class CacheConfig {
         // Đưa các cache của Supplier vào
         configurations.put("suppliers", suppliersConfig);
         configurations.put("supplierDetail", supplierDetailConfig);
+
+        // Đưa các cache của Brand vào
+        configurations.put("brands", brandsConfig);
+        configurations.put("brandDetail", brandDetailConfig);
 
         return RedisCacheManager.builder(connectionFactory)
                 .cacheDefaults(defaultConfig)
