@@ -327,4 +327,34 @@ class ProductServiceTest {
         }
     }
 
+    // deleteProduct
+    @Nested
+    @DisplayName("deleteProduct")
+    class DeleteProduct {
+        @Test
+        @DisplayName("Kiểm tra xoá sản phẩm thành công")
+        void deleteProduct_ShouldReturnDeletedProduct() {
+            when(productRepository.findById(1)).thenReturn(Optional.of(product));
+            when(authentication.getName()).thenReturn("admin");
+            productService.deleteProduct(1, authentication);
+
+            verify(productRepository).delete(product);
+            verify(auditLogService).saveLog("admin", "DELETE", "Product", 1);
+        }
+
+        @Test
+        @DisplayName("Kiểm tra xoá sản phẩm không tồn tại")
+        void deleteProduct_WhenProductNotExists_ShouldThrowException() {
+            when(productRepository.findById(99)).thenReturn(Optional.empty());
+            ResourceNotFoundException exception = assertThrows(
+                    ResourceNotFoundException.class,
+                    () -> productService.deleteProduct(99, authentication)
+            );
+
+            assertEquals("Không tìm thấy sản phẩm", exception.getMessage());
+            verify(productRepository, never()).delete(any(Product.class));
+            verifyNoInteractions(auditLogService);
+        }
+    }
+
 }
