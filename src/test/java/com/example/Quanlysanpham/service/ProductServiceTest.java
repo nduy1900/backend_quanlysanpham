@@ -8,6 +8,7 @@ import com.example.Quanlysanpham.entity.Brand;
 import com.example.Quanlysanpham.entity.Category;
 import com.example.Quanlysanpham.entity.Product;
 import com.example.Quanlysanpham.entity.User;
+import com.example.Quanlysanpham.exception.DuplicateResourceException;
 import com.example.Quanlysanpham.exception.ResourceNotFoundException;
 import com.example.Quanlysanpham.mapper.ProductMapper;
 import com.example.Quanlysanpham.repository.*;
@@ -83,7 +84,7 @@ class ProductServiceTest {
     }
 
 
-    // getProductById()
+    // getProductById
     @Nested
     @DisplayName("getProductById")
     class GetProductById {
@@ -100,7 +101,7 @@ class ProductServiceTest {
             // Actual
             ProductResponseDTO result = productService.getProductById(1);
 
-            // Assertion
+            // Assert
             assertNotNull(result);
             assertSame(responseDTO, result);
 
@@ -195,7 +196,135 @@ class ProductServiceTest {
                     "admin", "CREATE", "Product", 2
             );
         }
+
+        @Test
+        @DisplayName("Kiểm tra tạo sản phẩm với SKU đã tồn tại")
+        void createProduct_WhenSkuExists_ShouldThrowException() {
+            // Arrange
+            ProductRequestDTO request = new ProductRequestDTO();
+            request.setSku("SP001");
+
+            User user = new User();
+
+            when(userRepository.findByUsername("admin"))
+                    .thenReturn(Optional.of(user));
+            when(authentication.getName()).thenReturn("admin");
+            when(productRepository.existsBySku("SP001")).thenReturn(true);
+
+            // Assert
+            assertThrows(
+                    DuplicateResourceException.class,
+                    () -> productService.createProduct(request, authentication)
+            );
+            verify(productRepository, never()).save(any(Product.class));
+            verifyNoInteractions(auditLogService);
+        }
     }
 
+    // updateProduct
+    @Nested
+    @DisplayName("updateProduct")
+    class UpdateProduct {
+        @Test
+        @DisplayName("Kiểm tra cập nhật sản phẩm thành công")
+        void updateProduct_ShouldReturnUpdatedProduct() {
+            // Arrange
+            ProductRequestDTO request = new ProductRequestDTO();
+
+            request.setSku("SP001");
+            request.setName("Laptop Dell Updated");
+            request.setPrice(20000000);
+            request.setQuantity(15);
+            request.setMinStock(3);
+            request.setStatus("ACTIVE");
+            request.setCategoryId(1);
+            request.setBrandId(1);
+            request.setProductDetail(null);
+            request.setProductSuppliers(new ArrayList<>());
+
+            User user = new User();
+            user.setId(10);
+
+            Category category = new Category();
+            Brand brand = new Brand();
+
+            when(authentication.getName()).thenReturn("admin");
+            when(userRepository.findByUsername(authentication.getName()))
+                    .thenReturn(Optional.of(user));
+            when(productRepository.findById(1)).thenReturn(Optional.of(product));
+            when(productRepository.existsBySkuAndIdNot("SP001", 1))
+                    .thenReturn(false);
+            when(categoryRepository.findById(1)).thenReturn(Optional.of(category));
+            when(brandRepository.findById(1)).thenReturn(Optional.of(brand));
+            when(productRepository.save(any(Product.class))).thenReturn(product);
+            when(productMapper.toResponse(product)).thenReturn(responseDTO);
+
+
+            // Actual
+            ProductResponseDTO result = productService.updateProduct(1, request, authentication);
+
+            // Assert
+            assertNotNull(result);
+            assertEquals("Laptop Dell Updated", product.getName());
+            assertEquals(20000000, product.getPrice());
+            assertEquals(15, product.getQuantity());
+            assertEquals(10, product.getUpdatedBy());
+
+            verify(productRepository).save(product);
+            verify(auditLogService).saveLog("admin", "UPDATE", "Product", 1);
+        }
+
+        @Test
+        @DisplayName("Kiểm tra cập nhật sản phẩm không tồn tại")
+        void updateProduct_WhenProductNotExists_ShouldThrowException() {
+            ProductRequestDTO request = new ProductRequestDTO();
+            // Arrange
+            when(productRepository.findById(99)).thenReturn(Optional.empty());
+
+            assertThrows(ResourceNotFoundException.class,
+                    () -> productService.updateProduct(99, request, authentication)
+            );
+
+            verify(productRepository, never()).save(any(Product.class));
+            verifyNoInteractions(auditLogService);
+        }
+
+        @Test
+        @DisplayName("Kiểm tra cập nhật sản phẩm đã bị xoá")
+        void updateProduct_WhenProductDeleted_ShouldThrowException() {
+            product.setDeleted(true);
+            when(productRepository.findById(1)).thenReturn(Optional.of(product));
+
+            assertThrows(
+                    ResourceNotFoundException.class,
+                    () -> productService.updateProduct(1, new ProductRequestDTO(), authentication)
+            );
+
+            verify(userRepository, never()).findByUsername(anyString());
+            verify(productRepository, never()).save(any(Product.class));
+        }
+
+        @Test
+        @DisplayName("Kiểm tra sản phẩm bị trùng SKU")
+        void updateProduct_WhenSkuExists_ShouldThrowException() {
+            User user = new User();
+            user.setId(10);
+            ProductRequestDTO request = new ProductRequestDTO();
+            request.setSku("SP002");
+            when(productRepository.findById(1)).thenReturn(Optional.of(product));
+            when(userRepository.findByUsername("admin")).thenReturn(Optional.of(user));
+            when(authentication.getName()).thenReturn("admin");
+            when(productRepository.existsBySkuAndIdNot("SP002", 1))
+                    .thenReturn(true);
+
+            assertThrows(
+                    DuplicateResourceException.class,
+                    () -> productService.updateProduct(1, request, authentication)
+            );
+
+            verify(productRepository, never()).save(any(Product.class));
+
+        }
+    }
 
 }
