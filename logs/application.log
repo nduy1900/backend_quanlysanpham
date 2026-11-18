@@ -636,3 +636,291 @@ java.net.ConnectException: Connection refused: getsockopt
 2026-11-18 10:14:37 INFO  [main] o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
 2026-11-18 10:14:37 INFO  [main] o.s.boot.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
 2026-11-18 10:14:37 INFO  [main] c.e.Q.QuanlysanphamApplication - Started QuanlysanphamApplication in 8.622 seconds (process running for 9.117)
+2026-11-18 11:18:59 INFO  [main] c.e.Q.QuanlysanphamApplication - Starting QuanlysanphamApplication using Java 25.0.1 with PID 15864 (D:\tuhoc-java_spring\Quanlysanpham\Quanlysanpham\target\classes started by Admin in D:\tuhoc-java_spring\Quanlysanpham\Quanlysanpham)
+2026-11-18 11:18:59 INFO  [main] c.e.Q.QuanlysanphamApplication - No active profile set, falling back to 1 default profile: "default"
+2026-11-18 11:18:59 INFO  [background-preinit] o.h.validator.internal.util.Version - HV000001: Hibernate Validator 9.1.3.Final
+2026-11-18 11:18:59 INFO  [main] o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2026-11-18 11:18:59 INFO  [main] o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-11-18 11:19:00 INFO  [main] o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 127 ms. Found 11 JPA repository interfaces.
+2026-11-18 11:19:00 INFO  [main] o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2026-11-18 11:19:00 INFO  [main] o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2026-11-18 11:19:00 INFO  [main] o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.Quanlysanpham.repository.AuditLogRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-11-18 11:19:00 INFO  [main] o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.Quanlysanpham.repository.BrandRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-11-18 11:19:00 INFO  [main] o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.Quanlysanpham.repository.CategoryRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-11-18 11:19:00 INFO  [main] o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.Quanlysanpham.repository.ProductImageRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-11-18 11:19:00 INFO  [main] o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.Quanlysanpham.repository.ProductRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-11-18 11:19:00 INFO  [main] o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.Quanlysanpham.repository.RefreshTokenRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-11-18 11:19:00 INFO  [main] o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.Quanlysanpham.repository.RoleRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-11-18 11:19:00 INFO  [main] o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.Quanlysanpham.repository.StockMovementRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-11-18 11:19:00 INFO  [main] o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.Quanlysanpham.repository.SupplierRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-11-18 11:19:00 INFO  [main] o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.Quanlysanpham.repository.UserRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-11-18 11:19:00 INFO  [main] o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.Quanlysanpham.repository.UserRoleRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-11-18 11:19:00 INFO  [main] o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 9 ms. Found 0 Redis repository interfaces.
+2026-11-18 11:19:00 INFO  [main] o.s.boot.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2026-11-18 11:19:00 INFO  [main] o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2026-11-18 11:19:00 INFO  [main] o.a.catalina.core.StandardService - Starting service [Tomcat]
+2026-11-18 11:19:00 INFO  [main] o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/11.0.24]
+2026-11-18 11:19:00 INFO  [main] o.s.b.w.c.s.WebApplicationContextInitializer - Root WebApplicationContext: initialization completed in 1494 ms
+2026-11-18 11:19:01 INFO  [main] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-11-18 11:19:01 INFO  [main] com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@67dc6b48
+2026-11-18 11:19:01 INFO  [main] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-11-18 11:19:01 INFO  [main] org.hibernate.orm.jpa - HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-11-18 11:19:01 INFO  [main] org.hibernate.orm.core - HHH000001: Hibernate ORM core version 7.4.5.Final
+2026-11-18 11:19:01 INFO  [main] o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-11-18 11:19:01 INFO  [main] o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [jdbc:mysql://localhost:3306/deploy_quanlysanpham2]
+	Database driver: MySQL Connector/J
+	Database dialect: MySQLDialect
+	Database version: 8.0.44
+	Default catalog/schema: deploy_quanlysanpham2/undefined
+	Autocommit mode: undefined/unknown
+	Isolation level: REPEATABLE_READ [default REPEATABLE_READ]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-11-18 11:19:02 INFO  [main] org.hibernate.orm.core - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-11-18 11:19:02 INFO  [main] o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-11-18 11:19:02 INFO  [main] o.s.d.j.r.q.QueryEnhancerFactories - Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-11-18 11:19:03 INFO  [main] o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name customUserDetailsService
+2026-11-18 11:19:04 WARN  [main] o.s.b.j.a.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-11-18 11:19:05 INFO  [main] o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2026-11-18 11:19:05 INFO  [main] o.s.boot.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2026-11-18 11:19:05 INFO  [main] c.e.Q.QuanlysanphamApplication - Started QuanlysanphamApplication in 6.165 seconds (process running for 6.718)
+2026-11-18 11:19:14 INFO  [SpringApplicationShutdownHook] o.s.boot.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2026-11-18 11:19:14 INFO  [tomcat-shutdown] o.s.boot.tomcat.GracefulShutdown - Graceful shutdown complete
+2026-11-18 11:19:14 INFO  [SpringApplicationShutdownHook] o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-11-18 11:19:14 INFO  [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2026-11-18 11:19:14 INFO  [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2026-11-18 11:19:45 INFO  [main] c.e.Q.QuanlysanphamApplicationTests - Starting QuanlysanphamApplicationTests using Java 25.0.1 with PID 18728 (started by Admin in D:\tuhoc-java_spring\Quanlysanpham\Quanlysanpham)
+2026-11-18 11:19:45 INFO  [main] c.e.Q.QuanlysanphamApplicationTests - No active profile set, falling back to 1 default profile: "default"
+2026-11-18 11:19:45 INFO  [background-preinit] o.h.validator.internal.util.Version - HV000001: Hibernate Validator 9.1.3.Final
+2026-11-18 11:19:46 INFO  [main] o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2026-11-18 11:19:46 INFO  [main] o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-11-18 11:19:46 INFO  [main] o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 173 ms. Found 11 JPA repository interfaces.
+2026-11-18 11:19:46 INFO  [main] o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2026-11-18 11:19:46 INFO  [main] o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2026-11-18 11:19:46 INFO  [main] o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.Quanlysanpham.repository.AuditLogRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-11-18 11:19:46 INFO  [main] o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.Quanlysanpham.repository.BrandRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-11-18 11:19:46 INFO  [main] o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.Quanlysanpham.repository.CategoryRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-11-18 11:19:46 INFO  [main] o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.Quanlysanpham.repository.ProductImageRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-11-18 11:19:46 INFO  [main] o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.Quanlysanpham.repository.ProductRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-11-18 11:19:46 INFO  [main] o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.Quanlysanpham.repository.RefreshTokenRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-11-18 11:19:46 INFO  [main] o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.Quanlysanpham.repository.RoleRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-11-18 11:19:46 INFO  [main] o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.Quanlysanpham.repository.StockMovementRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-11-18 11:19:46 INFO  [main] o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.Quanlysanpham.repository.SupplierRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-11-18 11:19:46 INFO  [main] o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.Quanlysanpham.repository.UserRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-11-18 11:19:46 INFO  [main] o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.Quanlysanpham.repository.UserRoleRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-11-18 11:19:46 INFO  [main] o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 12 ms. Found 0 Redis repository interfaces.
+2026-11-18 11:19:47 INFO  [main] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-11-18 11:19:47 INFO  [main] com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@5c3007d
+2026-11-18 11:19:47 INFO  [main] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-11-18 11:19:47 INFO  [main] org.hibernate.orm.jpa - HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-11-18 11:19:47 INFO  [main] org.hibernate.orm.core - HHH000001: Hibernate ORM core version 7.4.5.Final
+2026-11-18 11:19:47 INFO  [main] o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-11-18 11:19:47 INFO  [main] o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [jdbc:mysql://localhost:3306/deploy_quanlysanpham2]
+	Database driver: MySQL Connector/J
+	Database dialect: MySQLDialect
+	Database version: 8.0.44
+	Default catalog/schema: deploy_quanlysanpham2/undefined
+	Autocommit mode: undefined/unknown
+	Isolation level: REPEATABLE_READ [default REPEATABLE_READ]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-11-18 11:19:48 INFO  [main] org.hibernate.orm.core - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-11-18 11:19:48 INFO  [main] o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-11-18 11:19:49 INFO  [main] o.s.d.j.r.q.QueryEnhancerFactories - Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-11-18 11:19:49 INFO  [main] o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name customUserDetailsService
+2026-11-18 11:19:51 WARN  [main] o.s.b.j.a.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-11-18 11:19:52 INFO  [main] c.e.Q.QuanlysanphamApplicationTests - Started QuanlysanphamApplicationTests in 7.621 seconds (process running for 8.655)
+2026-11-18 11:19:53 INFO  [main] c.e.Q.service.BrandService - API được gọi: BrandController.postBrand()
+2026-11-18 11:19:53 INFO  [main] c.e.Q.service.BrandService - Bắt đầu tạo thương hiệu Samsung
+2026-11-18 11:19:53 INFO  [main] c.e.Q.service.BrandService - API được gọi: BrandController.postBrand()
+2026-11-18 11:19:53 INFO  [main] c.e.Q.service.BrandService - Bắt đầu tạo thương hiệu Dell
+2026-11-18 11:19:53 INFO  [main] c.e.Q.service.BrandService - Tạo thương hiệu Dell thành công
+2026-11-18 11:19:53 INFO  [main] c.e.Q.service.BrandService - API được gọi: BrandController.postBrand()
+2026-11-18 11:19:53 INFO  [main] c.e.Q.service.BrandService - Bắt đầu tạo thương hiệu Dell
+2026-11-18 11:19:53 INFO  [main] c.e.Q.service.BrandService - Tạo thương hiệu Dell thành công
+2026-11-18 11:19:53 INFO  [main] c.e.Q.service.BrandService - API được gọi: BrandController.deleteBrand()
+2026-11-18 11:19:53 INFO  [main] c.e.Q.service.BrandService - Xoá thương hiệu, ID: 80
+2026-11-18 11:19:53 ERROR [main] c.e.Q.service.BrandService - Không tồn tại thương hiệu, ID: 80
+2026-11-18 11:19:53 INFO  [main] c.e.Q.service.BrandService - API được gọi: BrandController.deleteBrand()
+2026-11-18 11:19:53 INFO  [main] c.e.Q.service.BrandService - Xoá thương hiệu, ID: 1
+2026-11-18 11:19:53 INFO  [main] c.e.Q.service.BrandService - Xoá thương hiệu, ID: 1
+2026-11-18 11:19:53 INFO  [main] c.e.Q.service.BrandService - API được gọi: BrandController.getBrandList()
+2026-11-18 11:19:53 INFO  [main] c.e.Q.service.BrandService - Số lượng thương hiệu trong danh sách là: 1
+2026-11-18 11:19:54 INFO  [main] c.e.Q.service.BrandService - API được gọi: BrandController.getBrandById()
+2026-11-18 11:19:54 INFO  [main] c.e.Q.service.BrandService - Lấy thương hiệu, ID: 88
+2026-11-18 11:19:54 ERROR [main] c.e.Q.service.BrandService - Không tìm thấy thương hiệu, ID: 88
+2026-11-18 11:19:54 INFO  [main] c.e.Q.service.BrandService - API được gọi: BrandController.getBrandById()
+2026-11-18 11:19:54 INFO  [main] c.e.Q.service.BrandService - Lấy thương hiệu, ID: 1
+2026-11-18 11:19:54 INFO  [main] c.e.Q.service.BrandService - Tìm thấy thương hiệu, ID: 1
+2026-11-18 11:19:54 INFO  [main] c.e.Q.service.BrandService - API được gọi: BrandController.putBrand()
+2026-11-18 11:19:54 INFO  [main] c.e.Q.service.BrandService - Cập nhật thương hiệu, ID: 1
+2026-11-18 11:19:54 INFO  [main] c.e.Q.service.BrandService - Cập nhật thương hiệu, ID: 1
+2026-11-18 11:19:54 INFO  [main] c.e.Q.service.BrandService - API được gọi: BrandController.putBrand()
+2026-11-18 11:19:54 INFO  [main] c.e.Q.service.BrandService - Cập nhật thương hiệu, ID: 80
+2026-11-18 11:19:54 ERROR [main] c.e.Q.service.BrandService - Không tìm thấy thương hiệu, ID: 80
+2026-11-18 11:19:54 ERROR [main] c.e.Q.service.CategoryService - Không tìm thấy danh mục, ID: 99
+2026-11-18 11:19:54 INFO  [main] c.e.Q.service.CategoryService - Xoá danh mục thành công, ID: 1
+2026-11-18 11:19:54 INFO  [main] c.e.Q.service.CategoryService - API được gọi: CategoryController.postCategory()
+2026-11-18 11:19:54 INFO  [main] c.e.Q.service.CategoryService - Bắt đầu tạo sản phẩm: Smartphone
+2026-11-18 11:19:54 INFO  [main] c.e.Q.service.CategoryService - Thêm sản phẩm thành công, ID: 1
+2026-11-18 11:19:54 INFO  [main] c.e.Q.service.CategoryService - API được gọi: CategoryController.getCategoryById()
+2026-11-18 11:19:54 INFO  [main] c.e.Q.service.CategoryService - Bắt đầu tìm danh mục có ID: 88
+2026-11-18 11:19:54 ERROR [main] c.e.Q.service.CategoryService - Không tìm thấy danh mục có ID: 88
+2026-11-18 11:19:54 INFO  [main] c.e.Q.service.CategoryService - API được gọi: CategoryController.getCategoryById()
+2026-11-18 11:19:54 INFO  [main] c.e.Q.service.CategoryService - Bắt đầu tìm danh mục có ID: 1
+2026-11-18 11:19:54 INFO  [main] c.e.Q.service.CategoryService - Tìm thấy sản phẩm Smartphone
+2026-11-18 11:19:54 INFO  [main] c.e.Q.service.CategoryService - API được gọi: CategoryController.getCategoryList()
+2026-11-18 11:19:54 INFO  [main] c.e.Q.service.CategoryService - Số lượng danh mục trong danh sách là: 0
+2026-11-18 11:19:54 INFO  [main] c.e.Q.service.CategoryService - API được gọi: CategoryController.getCategoryList()
+2026-11-18 11:19:54 INFO  [main] c.e.Q.service.CategoryService - Số lượng danh mục trong danh sách là: 1
+2026-11-18 11:19:54 INFO  [main] c.e.Q.service.CategoryService - API được gọi: CategoryController.putCategory()
+2026-11-18 11:19:54 ERROR [main] c.e.Q.service.CategoryService - Không tìm thấy danh mục, ID: 99
+2026-11-18 11:19:54 INFO  [main] c.e.Q.service.CategoryService - API được gọi: CategoryController.putCategory()
+2026-11-18 11:19:54 INFO  [main] c.e.Q.service.CategoryService - Cập nhật danh mục thành công, ID: 1
+2026-11-18 11:19:54 INFO  [main] c.e.Q.service.ProductService - Bắt đầu thêm sản phẩm: Laptop HP
+2026-11-18 11:19:54 INFO  [main] c.e.Q.service.ProductService - Thêm sản phẩm thành công, ID: 2
+2026-11-18 11:19:54 INFO  [main] c.e.Q.service.ProductService - Cập nhật sản phẩm thành công, ID: 1
+2026-11-18 11:19:54 ERROR [main] c.e.Q.service.ProductService - Không tìm thấy sản phẩm, ID: 99
+2026-11-18 11:19:54 INFO  [main] c.e.Q.service.ProductService - Xoá sản phẩm thành công, ID: 1
+2026-11-18 11:19:54 ERROR [main] c.e.Q.service.ProductService - Không tìm thấy sản phẩm với ID: 99
+2026-11-18 11:19:54 INFO  [main] c.e.Q.service.ProductService - Bắt đầu tìm sản phẩm với ID: 1
+2026-11-18 11:19:54 INFO  [main] c.e.Q.service.ProductService - Tìm thấy sản phẩm: Laptop Dell
+2026-11-18 11:19:54 INFO  [main] c.e.Q.service.ProductService - Bắt đầu tìm sản phẩm với ID: 99
+2026-11-18 11:19:54 ERROR [main] c.e.Q.service.ProductService - Không tìm thấy sản phẩm, ID: 99
+2026-11-18 11:19:55 INFO  [main] c.e.Q.service.SupplierService - API được gọi: SupplierController.putSupplier()
+2026-11-18 11:19:55 INFO  [main] c.e.Q.service.SupplierService - Cập nhật nhà cung cấp, ID: 1
+2026-11-18 11:19:55 INFO  [main] c.e.Q.service.SupplierService - Cập nhật nhà cung cấp, ID: 1
+2026-11-18 11:19:55 INFO  [main] c.e.Q.service.SupplierService - API được gọi: SupplierController.putSupplier()
+2026-11-18 11:19:55 INFO  [main] c.e.Q.service.SupplierService - Cập nhật nhà cung cấp, ID: 99
+2026-11-18 11:19:55 ERROR [main] c.e.Q.service.SupplierService - Không tìm thấy nhà cung cấp, ID: 99
+2026-11-18 11:19:55 INFO  [main] c.e.Q.service.SupplierService - API được gọi: SupplierController.postSupplier()
+2026-11-18 11:19:55 INFO  [main] c.e.Q.service.SupplierService - Tạo mới nhà cung cấp Công ty Logitech Việt Nam
+2026-11-18 11:19:55 INFO  [main] c.e.Q.service.SupplierService - Tạo thành công nhà cung cấp Công ty Logitech Việt Nam
+2026-11-18 11:19:55 INFO  [main] c.e.Q.service.SupplierService - API được gọi: SupplierController.postSupplier()
+2026-11-18 11:19:55 INFO  [main] c.e.Q.service.SupplierService - Tạo mới nhà cung cấp Công ty Logitech Việt Nam
+2026-11-18 11:19:55 INFO  [main] c.e.Q.service.SupplierService - Tạo thành công nhà cung cấp Công ty Logitech Việt Nam
+2026-11-18 11:19:55 INFO  [main] c.e.Q.service.SupplierService - API được gọi: SupplierController.getList()
+2026-11-18 11:19:55 INFO  [main] c.e.Q.service.SupplierService - Số lượng nhà cung cấp trong danh sách là: 0
+2026-11-18 11:19:55 INFO  [main] c.e.Q.service.SupplierService - API được gọi: SupplierController.getList()
+2026-11-18 11:19:55 INFO  [main] c.e.Q.service.SupplierService - Số lượng nhà cung cấp trong danh sách là: 1
+2026-11-18 11:19:55 INFO  [main] c.e.Q.service.SupplierService - API được gọi: SupplierController.deleteSupplier()
+2026-11-18 11:19:55 ERROR [main] c.e.Q.service.SupplierService - Không tìm thấy nhà cung cấp, ID: 99
+2026-11-18 11:19:55 INFO  [main] c.e.Q.service.SupplierService - API được gọi: SupplierController.deleteSupplier()
+2026-11-18 11:19:55 INFO  [main] c.e.Q.service.SupplierService - Xoá nhà cung cấp, ID: 1
+2026-11-18 11:19:55 INFO  [main] c.e.Q.service.SupplierService - API được gọi: SupplierController.getSupplierById()
+2026-11-18 11:19:55 INFO  [main] c.e.Q.service.SupplierService - Tìm nhà cung cấp, ID: 1
+2026-11-18 11:19:55 INFO  [main] c.e.Q.service.SupplierService - Tìm nhà cung cấp, ID: 1
+2026-11-18 11:19:55 INFO  [main] c.e.Q.service.SupplierService - API được gọi: SupplierController.getSupplierById()
+2026-11-18 11:19:55 INFO  [main] c.e.Q.service.SupplierService - Tìm nhà cung cấp, ID: 99
+2026-11-18 11:19:55 ERROR [main] c.e.Q.service.SupplierService - Không tìm thấy nhà cung cấp, ID: 99
+2026-11-18 11:19:55 INFO  [SpringApplicationShutdownHook] o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-11-18 11:19:55 INFO  [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2026-11-18 11:19:55 INFO  [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2026-11-18 11:20:13 INFO  [main] c.e.Q.QuanlysanphamApplication - Starting QuanlysanphamApplication v0.0.1-SNAPSHOT using Java 25.0.1 with PID 5980 (D:\tuhoc-java_spring\Quanlysanpham\Quanlysanpham\target\Quanlysanpham-0.0.1-SNAPSHOT.jar started by Admin in D:\tuhoc-java_spring\Quanlysanpham\Quanlysanpham)
+2026-11-18 11:20:13 INFO  [main] c.e.Q.QuanlysanphamApplication - No active profile set, falling back to 1 default profile: "default"
+2026-11-18 11:20:13 INFO  [background-preinit] o.h.validator.internal.util.Version - HV000001: Hibernate Validator 9.1.3.Final
+2026-11-18 11:20:14 INFO  [main] o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2026-11-18 11:20:14 INFO  [main] o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-11-18 11:20:14 INFO  [main] o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 165 ms. Found 11 JPA repository interfaces.
+2026-11-18 11:20:14 INFO  [main] o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2026-11-18 11:20:14 INFO  [main] o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2026-11-18 11:20:14 INFO  [main] o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.Quanlysanpham.repository.AuditLogRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-11-18 11:20:14 INFO  [main] o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.Quanlysanpham.repository.BrandRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-11-18 11:20:14 INFO  [main] o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.Quanlysanpham.repository.CategoryRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-11-18 11:20:14 INFO  [main] o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.Quanlysanpham.repository.ProductImageRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-11-18 11:20:14 INFO  [main] o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.Quanlysanpham.repository.ProductRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-11-18 11:20:14 INFO  [main] o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.Quanlysanpham.repository.RefreshTokenRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-11-18 11:20:14 INFO  [main] o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.Quanlysanpham.repository.RoleRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-11-18 11:20:14 INFO  [main] o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.Quanlysanpham.repository.StockMovementRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-11-18 11:20:14 INFO  [main] o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.Quanlysanpham.repository.SupplierRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-11-18 11:20:14 INFO  [main] o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.Quanlysanpham.repository.UserRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-11-18 11:20:14 INFO  [main] o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.Quanlysanpham.repository.UserRoleRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-11-18 11:20:14 INFO  [main] o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 11 ms. Found 0 Redis repository interfaces.
+2026-11-18 11:20:15 INFO  [main] o.s.boot.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2026-11-18 11:20:15 INFO  [main] o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2026-11-18 11:20:15 INFO  [main] o.a.catalina.core.StandardService - Starting service [Tomcat]
+2026-11-18 11:20:15 INFO  [main] o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/11.0.24]
+2026-11-18 11:20:15 INFO  [main] o.s.b.w.c.s.WebApplicationContextInitializer - Root WebApplicationContext: initialization completed in 2152 ms
+2026-11-18 11:20:16 INFO  [main] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-11-18 11:20:16 INFO  [main] com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@3caf5c96
+2026-11-18 11:20:16 INFO  [main] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-11-18 11:20:16 INFO  [main] org.hibernate.orm.jpa - HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-11-18 11:20:16 INFO  [main] org.hibernate.orm.core - HHH000001: Hibernate ORM core version 7.4.5.Final
+2026-11-18 11:20:16 INFO  [main] o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-11-18 11:20:16 INFO  [main] o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [jdbc:mysql://localhost:3306/deploy_quanlysanpham2]
+	Database driver: MySQL Connector/J
+	Database dialect: MySQLDialect
+	Database version: 8.0.44
+	Default catalog/schema: deploy_quanlysanpham2/undefined
+	Autocommit mode: undefined/unknown
+	Isolation level: REPEATABLE_READ [default REPEATABLE_READ]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-11-18 11:20:17 INFO  [main] org.hibernate.orm.core - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-11-18 11:20:18 INFO  [main] o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-11-18 11:20:18 INFO  [main] o.s.d.j.r.q.QueryEnhancerFactories - Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-11-18 11:20:18 INFO  [main] o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name customUserDetailsService
+2026-11-18 11:20:20 WARN  [main] o.s.b.j.a.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-11-18 11:20:20 INFO  [main] o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2026-11-18 11:20:20 INFO  [main] o.s.boot.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2026-11-18 11:20:20 INFO  [main] c.e.Q.QuanlysanphamApplication - Started QuanlysanphamApplication in 8.001 seconds (process running for 8.518)
+2026-11-18 11:21:05 INFO  [main] c.e.Q.QuanlysanphamApplication - Starting QuanlysanphamApplication v0.0.1-SNAPSHOT using Java 25.0.1 with PID 22460 (D:\tuhoc-java_spring\Quanlysanpham\Quanlysanpham\app.jar started by Admin in D:\tuhoc-java_spring\Quanlysanpham\Quanlysanpham)
+2026-11-18 11:21:05 INFO  [main] c.e.Q.QuanlysanphamApplication - No active profile set, falling back to 1 default profile: "default"
+2026-11-18 11:21:05 INFO  [background-preinit] o.h.validator.internal.util.Version - HV000001: Hibernate Validator 9.1.3.Final
+2026-11-18 11:21:05 INFO  [main] o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2026-11-18 11:21:05 INFO  [main] o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-11-18 11:21:06 INFO  [main] o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 168 ms. Found 11 JPA repository interfaces.
+2026-11-18 11:21:06 INFO  [main] o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2026-11-18 11:21:06 INFO  [main] o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2026-11-18 11:21:06 INFO  [main] o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.Quanlysanpham.repository.AuditLogRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-11-18 11:21:06 INFO  [main] o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.Quanlysanpham.repository.BrandRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-11-18 11:21:06 INFO  [main] o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.Quanlysanpham.repository.CategoryRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-11-18 11:21:06 INFO  [main] o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.Quanlysanpham.repository.ProductImageRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-11-18 11:21:06 INFO  [main] o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.Quanlysanpham.repository.ProductRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-11-18 11:21:06 INFO  [main] o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.Quanlysanpham.repository.RefreshTokenRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-11-18 11:21:06 INFO  [main] o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.Quanlysanpham.repository.RoleRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-11-18 11:21:06 INFO  [main] o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.Quanlysanpham.repository.StockMovementRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-11-18 11:21:06 INFO  [main] o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.Quanlysanpham.repository.SupplierRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-11-18 11:21:06 INFO  [main] o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.Quanlysanpham.repository.UserRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-11-18 11:21:06 INFO  [main] o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.Quanlysanpham.repository.UserRoleRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-11-18 11:21:06 INFO  [main] o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 11 ms. Found 0 Redis repository interfaces.
+2026-11-18 11:21:07 INFO  [main] o.s.boot.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2026-11-18 11:21:07 INFO  [main] o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2026-11-18 11:21:07 INFO  [main] o.a.catalina.core.StandardService - Starting service [Tomcat]
+2026-11-18 11:21:07 INFO  [main] o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/11.0.24]
+2026-11-18 11:21:07 INFO  [main] o.s.b.w.c.s.WebApplicationContextInitializer - Root WebApplicationContext: initialization completed in 2229 ms
+2026-11-18 11:21:07 INFO  [main] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-11-18 11:21:07 INFO  [main] com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@500ec769
+2026-11-18 11:21:07 INFO  [main] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-11-18 11:21:08 INFO  [main] org.hibernate.orm.jpa - HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-11-18 11:21:08 INFO  [main] org.hibernate.orm.core - HHH000001: Hibernate ORM core version 7.4.5.Final
+2026-11-18 11:21:08 INFO  [main] o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-11-18 11:21:08 INFO  [main] o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [jdbc:mysql://localhost:3306/deploy_quanlysanpham2]
+	Database driver: MySQL Connector/J
+	Database dialect: MySQLDialect
+	Database version: 8.0.44
+	Default catalog/schema: deploy_quanlysanpham2/undefined
+	Autocommit mode: undefined/unknown
+	Isolation level: REPEATABLE_READ [default REPEATABLE_READ]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-11-18 11:21:09 INFO  [main] org.hibernate.orm.core - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-11-18 11:21:09 INFO  [main] o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-11-18 11:21:10 INFO  [main] o.s.d.j.r.q.QueryEnhancerFactories - Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-11-18 11:21:10 INFO  [main] o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name customUserDetailsService
+2026-11-18 11:21:12 WARN  [main] o.s.b.j.a.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-11-18 11:21:13 INFO  [main] o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2026-11-18 11:21:13 INFO  [main] o.s.boot.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2026-11-18 11:21:13 INFO  [main] c.e.Q.QuanlysanphamApplication - Started QuanlysanphamApplication in 8.572 seconds (process running for 9.057)
